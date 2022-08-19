@@ -155,11 +155,11 @@ function fr_display_review_details_meta_box( $film_review ) {
 	?>
 	<table>
 		<tr>
-			<td style="width: 150px"><?php esc_html_e( 'Author', 'ipanema-film-reviews' ); ?></td>
+			<td style="width: 150px"><?php esc_html_e( 'Film Director', 'ipanema-film-reviews' ); ?></td>
 			<td><input type='text' name='film_review_author_name' value='<?php esc_html_e( $film_author ); ?>' /></td>
 		</tr>
     <tr>
-			<td style="width: 150px"><?php esc_html_e( 'Film Actors', 'ipanema-film-reviews' ); ?></td>
+			<td style="width: 150px"><?php esc_html_e( 'Supporting actors', 'ipanema-film-reviews' ); ?></td>
 			<td><input type='text' name='film_review_actors_name' value='<?php esc_html_e( $film_actors ); ?>' /></td>
 		</tr>
     <tr>
@@ -370,16 +370,16 @@ function fr_display_single_film_review( $content ) {
   
       $content .= '<div class="custom-content">';
 
-      // Display Author Name
+      // Display Director Name
       $content .= '<strong>'; 
-	  $content .= esc_html__( 'Author: ', 'ipanema-film-reviews' );
+	  $content .= esc_html__( 'Film director: ', 'ipanema-film-reviews' );
 	  $content .= '</strong>';
       $content .= esc_html( get_post_meta( get_the_ID(), 'film_author', true ) );
       $content .= '<br />';
 
       // Display actors Name
       $content .= '<strong>'; 
-	  $content .= esc_html__( 'Film actors: ', 'ipanema-film-reviews' );
+	  $content .= esc_html__( 'Supporting actors: ', 'ipanema-film-reviews' );
 	  $content .= '</strong>';
       $content .= esc_html( get_post_meta( get_the_ID(), 'film_actors', true ) );
       $content .= '<br />';
@@ -481,8 +481,8 @@ function fr_film_review_list() {
 	if ( $film_review_query->have_posts() ) {
 		// Display posts in table layout
 		$output = '<table>';
-		$output .= '<tr><th style="width: 350px"><strong>' . esc_html__( 'Title', 'ipanema-film-reviews' ) . '</strong></th>';
-		$output .= '<th><strong>' . esc_html__( 'Author', 'ipanema-film-reviews' ) . '</strong></th></tr>';
+		$output .= '<tr><th style="width: 350px"><strong>' . esc_html__( 'Film Title', 'ipanema-film-reviews' ) . '</strong></th>';
+		$output .= '<th><strong>' . esc_html__( 'Film Director', 'ipanema-film-reviews' ) . '</strong></th></tr>';
 
 		// Cycle through all items retrieved
 		while ( $film_review_query->have_posts() ) {
@@ -521,12 +521,12 @@ function fr_film_review_list() {
 // Register function to be called when column list is being prepared
 add_filter( 'manage_edit-film_reviews_columns', 'fr_add_columns' );
 
-// Function to add columns for author, main actors, movie length, release date and genre in film review listing
+// Function to add columns for director, main actors, movie length, release date and genre in film review listing
 // and remove comments columns
 function fr_add_columns( $columns ) {
-	$columns['film_reviews_author']     = esc_html__( 'Author', 'ipanema-film-reviews' );
-  	$columns['film_reviews_actors']     = esc_html__( 'Actors', 'ipanema-film-reviews' );
-  	$columns['film_reviews_length']     = esc_html__( 'Length', 'ipanema-film-reviews' );
+	$columns['film_reviews_author']     = esc_html__( 'Film Director', 'ipanema-film-reviews' );
+  	$columns['film_reviews_actors']     = esc_html__( 'Supporting actors', 'ipanema-film-reviews' );
+  	$columns['film_reviews_length']     = esc_html__( 'Film Length', 'ipanema-film-reviews' );
   	$columns['film_reviews_rdate']      = esc_html__( 'Release date', 'ipanema-film-reviews' );
 	$columns['film_reviews_rating']     = esc_html__( 'Rating', 'ipanema-film-reviews' );
 	$columns['film_reviews_type']       = esc_html__( 'Genre', 'ipanema-film-reviews' );
@@ -578,7 +578,7 @@ function fr_populate_columns( $column ) {
 // Let's make sortable columns
 add_filter( 'manage_edit-film_reviews_sortable_columns', 'fr_column_sortable' );
 
-// Register the author, release date and rating columns are sortable columns
+// Register the director, release date and rating columns are sortable columns
 function fr_column_sortable( $columns ) {
 	$columns['film_reviews_author']  = 'film_reviews_author';
   	$columns['film_reviews_rdate']   = 'film_reviews_rdate';
@@ -676,7 +676,7 @@ function fr_display_custom_quickedit_link( $column_name, $post_type ) {
             case 'film_reviews_author': ?>
                 <fieldset class="inline-edit-col-right">
                 <div class="inline-edit-col">
-                    <label><span class="title"><?php esc_html_e( 'Author', 'ipanema-film-reviews' ); ?></span></label>
+                    <label><span class="title"><?php esc_html_e( 'Film director', 'ipanema-film-reviews' ); ?></span></label>
                     <input type="text" name='film_reviews_author_input'
                            id='film_reviews_author_input' value="">
                 </div>
@@ -840,8 +840,185 @@ function fr_save_quick_edit_data( $ID = false, $post = false ) {
 }
 
 /****************************************************************************
+ * Client-side content submission form
+ ****************************************************************************/
+// Declare shortcode and specify function to be called when found
+add_shortcode( 'submit-film-review', 'fr_film_review_form' );
+
+// Function to replace shortcode with content when found
+function fr_film_review_form() { 
+
+	// make sure user is logged in
+	if ( !is_user_logged_in() ) {
+		esc_html_e( '<p>You need to be a site member to be able to submit film reviews. Sign up to gain access!</p>', 'ipanema-film-review' );
+		return;
+	}
+	?>
+	<h3><?php esc_html_e( 'Add a Film Review', 'ipanema-film-review' ) ?></h3>
+	<form method="post" id="add_film_review" action="">
+		<!-- Nonce fields to verify visitor provenance -->
+		<?php wp_nonce_field( 'add_review_form', 'fr_user_form' ); ?>
+		
+		<!-- Display confirmation message to users who submit a film review -->
+		<?php if ( !empty( $_GET['add_review_message'] ) ) { ?>
+		<div style="margin: 8px;border: 1px solid #ddd;background-color: #ff0;">
+			<?php esc_html_e( 'Thank for your submission!', 'ipanema-film-review' ) ?>
+		</div>
+		<?php } ?>
+		
+	    <!-- Post variable to indicate user-submitted items -->
+		<input type="hidden" name="user_film_review_fe" value="1" />
+		
+		<table>
+			<tr>
+				<td><?php esc_html_e( 'Film Title', 'ipanema-film-review' ) ?></td>
+				<td><input type="text" name="film_title_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Film Director', 'ipanema-film-review' ) ?></td>
+				<td><input type="text" name="film_author_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Supporting Actors', 'ipanema-film-review' ) ?></td>
+				<td><input type="text" name="film_actors_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Film Length', 'ipanema-film-review' ) ?></td>
+				<td><input type="number" name="film_length_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Release Date', 'ipanema-film-review' ) ?></td>
+				<td><input type="date" name="film_rdate_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Film Review', 'ipanema-film-review' ) ?></td>
+				<td><textarea name="film_review_text_fe"></textarea></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Rating', 'ipanema-film-review' ) ?></td>
+				<td>
+					<select name="film_review_rating_fe">
+					<?php
+					// Generate all rating items in drop-down list
+					for ( $rating = 5; $rating >= 1; $rating-- ) { ?>
+						<option value="<?php echo $rating; ?>"><?php echo $rating; ?> stars
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Genre', 'ipanema-film-review' ); ?></td>
+				<td>
+					<?php 
+
+					// Retrieve array of all film types in system
+					$film_types = get_terms( 'film_reviews_film_type', array( 'orderby' => 'name', 'hide_empty' => 0 ) );
+
+					// Check if film types were found
+					if ( !is_wp_error( $film_types ) && !empty( $film_types ) ) {
+						echo '<select name="film_review_film_type">';
+
+						// Display all film types
+						foreach ( $film_types as $film_type ) {				
+							echo '<option value="' . $film_type->term_id . '">' . $film_type->name . '</option>';
+						}		
+						echo '</select>';
+					} ?>
+				</td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Source Name', 'ipanema-film-reviews' ); ?></td>
+				<td><input type="text" name="source_name_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Source Address', 'ipanema-film-reviews' ); ?></td>
+				<td><input type="text" name="source_address_fe" /></td>
+			</tr>
+			<tr>
+				<td><?php esc_html_e( 'Upload File ', 'ipanema-film-reviews' ); ?></td>
+				<td><input type="file" name="upload_featuredimage"/></td>
+			</tr>
+		</table>
+
+		<input type="submit" name="submit" value="Submit Review" />
+	</form>
+
+<?php }
+
+// Let's save data from front-end form
+
+add_action( 'template_redirect', 'fr_match_new_film_reviews' );
+
+function fr_match_new_film_reviews( $template ) {	
+	if ( !empty( $_POST['user_film_review_fe'] ) ) {
+		fr_process_user_book_reviews();
+	} else {
+		return $template;
+	}		
+}
+
+function fr_process_user_book_reviews() {
+
+	// Check that all required fields are present and non-empty
+	if ( wp_verify_nonce( $_POST['fr_user_form'], 'add_review_form' ) && 
+		 !empty( $_POST['film_title_fe'] ) && 
+		 !empty( $_POST['film_author_fe'] ) &&
+		 !empty( $_POST['film_actors_fe'] ) && 
+		 !empty( $_POST['film_length_fe'] ) &&
+		 !empty( $_POST['film_rdate_fe'] ) &&
+		 !empty( $_POST['film_review_text_fe'] ) &&
+		 !empty( $_POST['film_review_rating_fe'] ) &&
+		 !empty( $_POST['film_review_film_type'] ) &&
+		 !empty( $_POST['source_name_fe'] ) &&
+		 !empty( $_POST['source_address_fe'] ) &&
+		 !empty( $_POST['upload_featuredimage'] ) ) {
+
+		// Create array with received data
+		$new_film_review_data = array(
+				'post_status' 	=> 'draft', // Drafts posts are not yet published
+				'post_title' 	=> $_POST['film_title_fe'],
+				'post_type' 	=> 'film_reviews',
+				'post_content' 	=> $_POST['film_review_text_fe']
+			);
+
+		// Insert new post in site database
+		// Store new post ID from return value in variable
+		$new_film_review_id = wp_insert_post( $new_film_review_data );
+
+		// Store the rest of film data
+		add_post_meta( $new_film_review_id, 'film_author', wp_kses( $_POST['film_author_fe'], array() ) );
+		add_post_meta( $new_film_review_id, 'film_actors', wp_kses( $_POST['film_actors_fe'], array() ) );
+		add_post_meta( $new_film_review_id, 'film_length', (int) $_POST['film_length_fe'] );
+		add_post_meta( $new_film_review_id, 'film_rdate', wp_kses( $_POST['film_rdate_fe'], array() ) );
+		add_post_meta( $new_film_review_id, 'film_rating', (int) $_POST['film_review_rating_fe'] );
+		add_post_meta( $new_film_review_id, 'custom_post_source_name', wp_kses( $_POST['source_name_fe'], array() ) );
+		add_post_meta( $new_film_review_id, 'custom_post_source_address', wp_kses( $_POST['source_address_fe'], array() ) );
+		
+		// add_post_meta( $new_film_review_id, 'attach_data', wp_kses( $_POST['upload_pdf_fe'], array() ) );
+
+		// Set film type on post
+		wp_set_post_terms( $new_film_review_id, $_POST['film_review_film_type'], 'film_reviews_film_type' );	
+		// if ( term_exists( $_POST['film_review_film_type'], 'film_reviews_film_type' ) ) {
+			// wp_set_post_terms( $new_film_review_id, $_POST['film_review_film_type'], 'film_reviews_film_type' );
+		// }
+
+		// Redirect browser to film review submission page
+		$redirect_address = ( empty( $_POST['_wp_http_referer'] ) ? site_url() : $_POST['_wp_http_referer'] );
+		wp_redirect( add_query_arg( 'add_review_message', '1', $redirect_address ) );
+		exit;
+	} else {
+		// Display error message if any required fields are missing
+		// or if form did not have valid nonce fields.		
+		$abort_message = 'Some fields were left empty. Please '; 
+        $abort_message .= 'go back and complete the form.'; 
+        wp_die( $abort_message ); 
+		exit;
+	}
+}
+
+/****************************************************************************
  * Fonts utilitzades:
- * WordPress Plugin Development Cookbook (Second edition) - Yannick Lefebvre
- * How to Internationalize Your Plugin (Plugin Handbook)
- * Plugin Readmes (Plugin Handbook)
+ * WordPress Plugin Development Cookfilm (Second edition) - Yannick Lefebvre
+ * How to Internationalize Your Plugin (Plugin Handfilm)
+ * Plugin Readmes (Plugin Handfilm)
  ****************************************************************************/
