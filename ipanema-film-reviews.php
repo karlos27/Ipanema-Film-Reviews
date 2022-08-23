@@ -855,7 +855,7 @@ function fr_film_review_form() {
 	}
 	?>
 	<h3><?php esc_html_e( 'Add a Film Review', 'ipanema-film-review' ) ?></h3>
-	<form method="post" id="add_film_review" action="">
+	<form method="post" id="add_film_review" action="" enctype="multipart/form-data">
 		<!-- Nonce fields to verify visitor provenance -->
 		<?php wp_nonce_field( 'add_review_form', 'fr_user_form' ); ?>
 		
@@ -935,8 +935,8 @@ function fr_film_review_form() {
 				<td><input type="text" name="source_address_fe" /></td>
 			</tr>
 			<tr>
-				<td><?php esc_html_e( 'Upload File ', 'ipanema-film-reviews' ); ?></td>
-				<td><input type="file" name="upload_featuredimage"/></td>
+				<td><?php esc_html_e( 'Thumbnail ', 'ipanema-film-reviews' ); ?></td>
+				<td><input type="file" name="thumbnail"/></td>
 			</tr>
 		</table>
 
@@ -951,13 +951,13 @@ add_action( 'template_redirect', 'fr_match_new_film_reviews' );
 
 function fr_match_new_film_reviews( $template ) {	
 	if ( !empty( $_POST['user_film_review_fe'] ) ) {
-		fr_process_user_book_reviews();
+		fr_process_user_film_reviews();
 	} else {
 		return $template;
 	}		
 }
 
-function fr_process_user_book_reviews() {
+function fr_process_user_film_reviews() {
 
 	// Check that all required fields are present and non-empty
 	if ( wp_verify_nonce( $_POST['fr_user_form'], 'add_review_form' ) && 
@@ -971,7 +971,7 @@ function fr_process_user_book_reviews() {
 		 !empty( $_POST['film_review_film_type'] ) &&
 		 !empty( $_POST['source_name_fe'] ) &&
 		 !empty( $_POST['source_address_fe'] ) &&
-		 !empty( $_POST['upload_featuredimage'] ) ) {
+		 !empty( $_FILES ) ) {
 
 		// Create array with received data
 		$new_film_review_data = array(
@@ -985,7 +985,7 @@ function fr_process_user_book_reviews() {
 		// Store new post ID from return value in variable
 		$new_film_review_id = wp_insert_post( $new_film_review_data );
 
-		// Store the rest of film data
+		// Store film data
 		add_post_meta( $new_film_review_id, 'film_author', wp_kses( $_POST['film_author_fe'], array() ) );
 		add_post_meta( $new_film_review_id, 'film_actors', wp_kses( $_POST['film_actors_fe'], array() ) );
 		add_post_meta( $new_film_review_id, 'film_length', (int) $_POST['film_length_fe'] );
@@ -994,13 +994,53 @@ function fr_process_user_book_reviews() {
 		add_post_meta( $new_film_review_id, 'custom_post_source_name', wp_kses( $_POST['source_name_fe'], array() ) );
 		add_post_meta( $new_film_review_id, 'custom_post_source_address', wp_kses( $_POST['source_address_fe'], array() ) );
 		
-		// add_post_meta( $new_film_review_id, 'attach_data', wp_kses( $_POST['upload_pdf_fe'], array() ) );
-
-		// Set film type on post
+		// Store Film Genre
 		wp_set_post_terms( $new_film_review_id, $_POST['film_review_film_type'], 'film_reviews_film_type' );	
-		// if ( term_exists( $_POST['film_review_film_type'], 'film_reviews_film_type' ) ) {
-			// wp_set_post_terms( $new_film_review_id, $_POST['film_review_film_type'], 'film_reviews_film_type' );
-		// }
+		
+		// Also set thumbnail for the film
+		if ( isset( $_FILES ) ) {
+			if( array_key_exists( 'thumbnail', $_FILES ) && !$_FILES['thumbnail']['error']) {
+				// Retrieve information on file type and store lower-case version
+				$thumbnail_type_array 	= wp_check_filetype( basename( $_FILES['thumbnail']['name'] ) );
+				$thumbnail_ext        	= strtolower( $thumbnail_type_array['ext'] );
+
+				// Display error message if file is not a jpg
+				if ( 'jpg' != $thumbnail_ext ) {
+					wp_die( esc_html__( 'Only "jpg" files type are allowed.', 'ipanema-film-reviews' ) );
+					exit;
+				} else {
+					// Create the image file in the upload folder
+					wp_upload_bits( $_FILES['thumbnail']['name'], null, file_get_contents( $_FILES['thumbnail']['tmp_name'] ) );
+
+					$upload_file 	= wp_handle_upload( $_FILES[ 'thumbnail' ], array( 'test_form' => false ) );				
+									
+					// Set title for the array attachment
+					$title			= $_POST['film_title_fe'];				
+					
+					$thumbnail_id 	= wp_insert_attachment(
+							array(
+								'guid'           => $upload_file[ 'url' ],
+								'post_mime_type' => $upload_file[ 'type' ],
+								'post_title'     => $title,
+								'post_content'   => '',
+								'post_status'    => 'inherit',
+							),
+							$upload_file[ 'file' ],
+							$new_film_review_id
+						);
+					
+					// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+    				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+					// Generate the metadata for the thumbnail, and update the database record.
+					$attach_data = wp_generate_attachment_metadata( $thumbnail_id, $upload_file['file'] );
+					wp_update_attachment_metadata( $thumbnail_id, $attach_data );
+					
+					// Set thumbnail for the custom post
+					set_post_thumbnail( $new_film_review_id, $thumbnail_id, );
+				}
+			}
+		}
+			
 
 		// Redirect browser to film review submission page
 		$redirect_address = ( empty( $_POST['_wp_http_referer'] ) ? site_url() : $_POST['_wp_http_referer'] );
@@ -1013,6 +1053,28 @@ function fr_process_user_book_reviews() {
         $abort_message .= 'go back and complete the form.'; 
         wp_die( $abort_message ); 
 		exit;
+	}
+}
+
+add_action( 'wp_insert_post', 'fr_send_email', 10, 2 );
+
+function fr_send_email( $post_id, $post ) {
+	// Only send e-mails for user-submitted book reviews
+	if ( isset( $_POST['user_film_review_fe'] ) && 'film_reviews' == $post->post_type ) {
+		$headers = 'Content-type: text/html';
+	
+		// Prepare e-mail message to notify site admin of new submission
+		$admin_mail = get_option( 'admin_email' );
+
+		$message = 'A user submitted a new film review to your Wordpress site database.<br /><br />';
+		$message .= 'Film: ' . $post->post_title . '<br />';
+
+		$message .= '<a href="' . add_query_arg( array( 'post_status' => 'draft', 'post_type' => 'film_reviews' ), admin_url( 'edit.php' ) ) . '">Moderate new film reviews</a>';
+
+		$email_title = htmlspecialchars_decode( get_bloginfo(), ENT_QUOTES ) . ' - New Film Review Added: ' . htmlspecialchars( $post->post_title );
+
+		// Send e-mail
+		wp_mail( $admin_mail, $email_title, $message, $headers );
 	}
 }
 
