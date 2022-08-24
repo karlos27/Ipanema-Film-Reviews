@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-18 19:09+0200\n"
-"PO-Revision-Date: 2022-08-18 19:09+0200\n"
+"POT-Creation-Date: 2022-08-24 16:44+0200\n"
+"PO-Revision-Date: 2022-08-24 16:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -15,218 +15,302 @@ msgstr ""
 "X-Poedit-KeywordsList: esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ipanema-film-reviews.php:60
+#: ipanema-film-reviews.php:76
 msgid "Film Reviews"
 msgstr "Ressenyes cinematogràfiques"
 
-#: ipanema-film-reviews.php:61
+#: ipanema-film-reviews.php:77 ipanema-film-reviews.php:999
 msgid "Film Review"
 msgstr "Ressenya cinematogràfica"
 
-#: ipanema-film-reviews.php:62
+#: ipanema-film-reviews.php:78
 msgid "Add New"
 msgstr "Afegir Nova Ressenya"
 
-#: ipanema-film-reviews.php:63
+#: ipanema-film-reviews.php:79
 msgid "Add New Film Review"
 msgstr "Afegeix Nova Ressenya"
 
-#: ipanema-film-reviews.php:64
+#: ipanema-film-reviews.php:80
 msgid "Edit"
 msgstr "Edita"
 
-#: ipanema-film-reviews.php:65
+#: ipanema-film-reviews.php:81
 msgid "Edit Film Review"
 msgstr "Edita Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:66
+#: ipanema-film-reviews.php:82
 msgid "New Film Review"
 msgstr "Nova Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:67
+#: ipanema-film-reviews.php:83
 msgid "View"
 msgstr "Visualitza"
 
-#: ipanema-film-reviews.php:68
+#: ipanema-film-reviews.php:84
 msgid "View Film Review"
 msgstr "Visualitza Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:69
+#: ipanema-film-reviews.php:85
 msgid "Search Reviews"
 msgstr "Cerca Ressenyes"
 
-#: ipanema-film-reviews.php:70
+#: ipanema-film-reviews.php:86
 msgid "No Film Reviews found"
 msgstr "No s'han trobat ressenyes cinematogràfiques"
 
-#: ipanema-film-reviews.php:71
+#: ipanema-film-reviews.php:87
 msgid "No Film Reviews found in Trash"
 msgstr "No s'han trobat ressenyes cinematogràfiques a la paperera"
 
-#: ipanema-film-reviews.php:72
+#: ipanema-film-reviews.php:88
 msgid "Parent Film Review"
 msgstr "Ressenya Cinematogràfica Matriu"
 
-#: ipanema-film-reviews.php:91
+#: ipanema-film-reviews.php:107
 msgid "Film Genre"
 msgstr "Gèneres Cinematogràfics"
 
-#: ipanema-film-reviews.php:92
+#: ipanema-film-reviews.php:108
 msgid "Add New Film Genre"
 msgstr "Afegir Nou Gènere Cinematogràfic"
 
-#: ipanema-film-reviews.php:93
+#: ipanema-film-reviews.php:109
 msgid "New Film Genre Name"
 msgstr "Nou Gènere Cinematogràfic"
 
-#: ipanema-film-reviews.php:115
+#: ipanema-film-reviews.php:131
 msgid "Film Review Details"
 msgstr "Detalls Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:121
+#: ipanema-film-reviews.php:137
 msgid "Source"
-msgstr ""
+msgstr "Font"
 
-#: ipanema-film-reviews.php:127 ipanema-film-reviews.php:282
-msgid "Upload File"
-msgstr ""
+#: ipanema-film-reviews.php:143
+msgid "File attachment"
+msgstr "Adjunt"
 
-#: ipanema-film-reviews.php:158 ipanema-film-reviews.php:485
-#: ipanema-film-reviews.php:527 ipanema-film-reviews.php:679
-msgid "Author"
+#: ipanema-film-reviews.php:149
+msgid "Twitter Feed"
+msgstr "Feed de Twitter"
+
+#: ipanema-film-reviews.php:180 ipanema-film-reviews.php:590
+#: ipanema-film-reviews.php:632 ipanema-film-reviews.php:983
+msgid "Film Director"
 msgstr "Director"
 
-#: ipanema-film-reviews.php:162
-msgid "Film Actors"
+#: ipanema-film-reviews.php:184 ipanema-film-reviews.php:633
+msgid "Supporting actors"
 msgstr "Actors de repartiment"
 
-#: ipanema-film-reviews.php:166
+#: ipanema-film-reviews.php:188
 msgid "Film length"
 msgstr "Durada de la Pel·lícula"
 
-#: ipanema-film-reviews.php:170 ipanema-film-reviews.php:530
+#: ipanema-film-reviews.php:192 ipanema-film-reviews.php:635
 msgid "Release date"
 msgstr "Data d'estrena"
 
-#: ipanema-film-reviews.php:174 ipanema-film-reviews.php:531
-#: ipanema-film-reviews.php:686
+#: ipanema-film-reviews.php:196 ipanema-film-reviews.php:636
+#: ipanema-film-reviews.php:791 ipanema-film-reviews.php:1003
 msgid "Rating"
 msgstr "Qualificació"
 
-#: ipanema-film-reviews.php:179 ipanema-film-reviews.php:565
-#: ipanema-film-reviews.php:692
+#: ipanema-film-reviews.php:201 ipanema-film-reviews.php:670
+#: ipanema-film-reviews.php:797
 msgid " stars"
 msgstr " estrelles"
 
-#: ipanema-film-reviews.php:228
+#: ipanema-film-reviews.php:250 ipanema-film-reviews.php:1035
 msgid "Source Name"
-msgstr ""
+msgstr "Font"
 
-#: ipanema-film-reviews.php:234
+#: ipanema-film-reviews.php:256 ipanema-film-reviews.php:1039
 msgid "Source Address"
-msgstr ""
-
-#: ipanema-film-reviews.php:264
-msgid "PDF Attachment"
-msgstr ""
-
-#: ipanema-film-reviews.php:272
-msgid "No Attachment Present"
-msgstr ""
-
-#: ipanema-film-reviews.php:275
-msgid "Download Attachment"
-msgstr ""
+msgstr "Adreça"
 
 #: ipanema-film-reviews.php:286
+msgid "PDF Attachment"
+msgstr "PDF Adjunt"
+
+#: ipanema-film-reviews.php:294
+msgid "No Attachment Present"
+msgstr "No hi ha cap fitxer adjunt"
+
+#: ipanema-film-reviews.php:297
+msgid "Download Attachment"
+msgstr "Descarregar fitxer adjunt"
+
+#: ipanema-film-reviews.php:304
+msgid "Upload File"
+msgstr "Adjunt"
+
+#: ipanema-film-reviews.php:308
 msgid "Delete File"
-msgstr ""
+msgstr "Suprimeix fitxer"
 
-#: ipanema-film-reviews.php:313
+#: ipanema-film-reviews.php:309
+msgid "Delete Attachment"
+msgstr "Suprimeix l'adjunt"
+
+#: ipanema-film-reviews.php:335
 msgid "Only files of PDF type are allowed."
-msgstr ""
+msgstr "Només es permeten arxius tipus PDF."
 
-#: ipanema-film-reviews.php:324
+#: ipanema-film-reviews.php:346
 msgid "There was an error uploading your file. The error is: "
-msgstr ""
+msgstr "Hi ha hagut un error pujant el fitxer. L'error és: "
 
-#: ipanema-film-reviews.php:375
-#, fuzzy
-#| msgid "Author"
-msgid "Author: "
-msgstr "Director"
+#: ipanema-film-reviews.php:370
+msgid "Username"
+msgstr "Usuari"
 
-#: ipanema-film-reviews.php:382
-#, fuzzy
-#| msgid "Film Actors"
-msgid "Film actors: "
-msgstr "Actors de repartiment"
-
-#: ipanema-film-reviews.php:389
-#, fuzzy
-#| msgid "Film length"
-msgid "Film length: "
-msgstr "Durada de la Pel·lícula"
-
-#: ipanema-film-reviews.php:398
-#, fuzzy
-#| msgid "Release date"
-msgid "Release date: "
-msgstr "Data d'estrena"
-
-#: ipanema-film-reviews.php:405
-#, fuzzy
-#| msgid "Rating"
-msgid "Rating: "
-msgstr "Qualificació"
-
-#: ipanema-film-reviews.php:428
-msgid "Source: "
-msgstr ""
+#: ipanema-film-reviews.php:435
+msgid "Film director: "
+msgstr "Director: "
 
 #: ipanema-film-reviews.php:442
+msgid "Supporting actors: "
+msgstr "Actors de repartiment: "
+
+#: ipanema-film-reviews.php:449
+msgid "Film length: "
+msgstr "Durada de la Pel·lícula: "
+
+#: ipanema-film-reviews.php:458
+msgid "Release date: "
+msgstr "Data d'estrena: "
+
+#: ipanema-film-reviews.php:465
+msgid "Rating: "
+msgstr "Qualificació: "
+
+#: ipanema-film-reviews.php:488
+msgid "Source: "
+msgstr "Font: "
+
+#: ipanema-film-reviews.php:501
 msgid "Download additional information"
-msgstr ""
+msgstr "Descarregar informació adicional"
 
-#: ipanema-film-reviews.php:484
-msgid "Title"
-msgstr "Títol"
+#: ipanema-film-reviews.php:520
+msgid "Check out this interesting article entitled"
+msgstr "Consulta aquest interessant article titulat"
 
-#: ipanema-film-reviews.php:502
+#: ipanema-film-reviews.php:522
+msgid "Hi!%0A%0AI thought you would enjoy this article entitled"
+msgstr "Hola!%0A%0AHe pensat que t'agradaria aquest article titulat"
+
+#: ipanema-film-reviews.php:524
+msgid "Enjoy"
+msgstr "Disfruta'l"
+
+#: ipanema-film-reviews.php:531
+msgid "Email link to this article"
+msgstr "Enllaç"
+
+#: ipanema-film-reviews.php:589 ipanema-film-reviews.php:979
+msgid "Film Title"
+msgstr "Títol de la pel·lícula"
+
+#: ipanema-film-reviews.php:607
 msgid " Older reviews"
 msgstr " Ressenyes anteriors"
 
-#: ipanema-film-reviews.php:505
+#: ipanema-film-reviews.php:610
 msgid "Newer reviews "
 msgstr "Últimes Ressenyes "
 
-#: ipanema-film-reviews.php:528
-msgid "Actors"
-msgstr "Actors/Actrius"
+#: ipanema-film-reviews.php:634 ipanema-film-reviews.php:991
+msgid "Film Length"
+msgstr "Durada de la Pel·lícula"
 
-#: ipanema-film-reviews.php:529
-msgid "Length"
-msgstr "Durada"
-
-#: ipanema-film-reviews.php:532 ipanema-film-reviews.php:699
+#: ipanema-film-reviews.php:637 ipanema-film-reviews.php:804
+#: ipanema-film-reviews.php:1015
 msgid "Genre"
 msgstr "Gènere"
 
-#: ipanema-film-reviews.php:573
+#: ipanema-film-reviews.php:678
 msgid "None Assigned"
 msgstr "Cap Assignada"
 
-#: ipanema-film-reviews.php:636
+#: ipanema-film-reviews.php:741
 msgid "Show All Genre"
 msgstr "Mostra Tots Els Gèneres"
 
-#: ipanema-film-reviews.php:796
+#: ipanema-film-reviews.php:784
+msgid "Film director"
+msgstr "Director"
+
+#: ipanema-film-reviews.php:901
 msgid "Edit this item inline"
 msgstr "Edita aquest article en línia"
 
-#: ipanema-film-reviews.php:801
+#: ipanema-film-reviews.php:906
 msgid "Quick&nbsp;Edit"
 msgstr "Edició ràpida"
+
+#: ipanema-film-reviews.php:958
+msgid ""
+"<p>You need to be a site member to be able to submit film reviews. Sign up "
+"to gain access!</p>"
+msgstr ""
+"<p>Heu de ser membre del lloc per poder enviar ressenyes de pel·lícules. "
+"Registra't per accedir!</p>"
+
+#: ipanema-film-reviews.php:962
+msgid "Add a Film Review"
+msgstr "Afegeix Nova Ressenya"
+
+#: ipanema-film-reviews.php:970
+msgid "Thank for your submission!"
+msgstr "Moltes gràcies!"
+
+#: ipanema-film-reviews.php:987
+msgid "Supporting Actors"
+msgstr "Actors de repartiment"
+
+#: ipanema-film-reviews.php:995
+msgid "Release Date"
+msgstr "Data d'estrena"
+
+#: ipanema-film-reviews.php:1043
+msgid "Thumbnail "
+msgstr "Imatge "
+
+#: ipanema-film-reviews.php:1047
+msgid "Twitter account"
+msgstr "Compte de Twitter"
+
+#: ipanema-film-reviews.php:1122
+msgid "Only \"jpg\" files type are allowed."
+msgstr "Només es permeten fitxers de tipus \"jpg\"."
+
+#: ipanema-film-reviews.php:1165
+msgid "Some fields were left empty. Please go back and complete the form."
+msgstr ""
+"Alguns camps estan buits. Si us plau, torneu enrere i ompliu el formulari."
+
+#~ msgid "Email article link"
+#~ msgstr "Enllaç "
+
+#~ msgid "Author"
+#~ msgstr "Director"
+
+#, fuzzy
+#~| msgid "Author"
+#~ msgid "Author: "
+#~ msgstr "Director"
+
+#~ msgid "Title"
+#~ msgstr "Títol"
+
+#~ msgid "Actors"
+#~ msgstr "Actors/Actrius"
+
+#~ msgid "Length"
+#~ msgstr "Durada"
 
 #~ msgid "<strong>Author: </strong>"
 #~ msgstr "<strong>Director: </strong>"

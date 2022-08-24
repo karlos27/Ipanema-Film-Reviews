@@ -1,0 +1,27 @@
+/**
+ * Plugin Name: Ipanema Film Reviews
+ * Plugin URI: https://github.com/karlos27/Ipanema-Film-Reviews.git
+ * Description: This plugin lets you add a film review system to your WordPress site. Using custom post types, administrators will be able to create and edit film reviews to be published on your site. 
+ * Author: segcgonz
+ * Author URI: https://www.linkedin.com/in/carlossegarragonzalez
+ * Version: 1.0
+ * Requires at least: 4.7
+ * Requires PHP: 7.0
+ * Text Domain: ipanema-film-reviews
+ * Domain Path: /languages
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+/***************************** 
+ * Single Film Review Template
+ *****************************/
+#thumbnail_single_post {
+    float: right;
+    margin: 10px;
+}
+.tweeter_feed{
+    width: 100%;
+    position: relative;
+    margin-top: 5%;
+}
