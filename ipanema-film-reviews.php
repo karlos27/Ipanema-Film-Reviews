@@ -1198,7 +1198,7 @@ function ifr_recaptcha_script() {
 
 /****************************************************************************
  * Fonts utilitzades:
- * WordPress Plugin Development Cookfilm (Second edition) - Yannick Lefebvre
- * How to Internationalize Your Plugin (Plugin Handfilm)
- * Plugin Readmes (Plugin Handfilm)
+ * WordPress Plugin Development CookBook (Second edition) - Yannick Lefebvre
+ * How to Internationalize Your Plugin (Plugin HandBook)
+ * Plugin Readmes (Plugin HandBook)
  ****************************************************************************/
