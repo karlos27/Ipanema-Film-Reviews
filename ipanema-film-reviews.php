@@ -17,10 +17,16 @@
 
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'is_admin', 1 );
+
+// Check if user is visiting administration pages and load external code file if that is the case
+if ( is_admin() ) {
+	include plugin_dir_path( __FILE__ ) . 'admin/ipanema-settings.php';
+}
 
 /****************************************************************************
  * Modify site generator meta tag (header)
@@ -959,6 +965,12 @@ function ifr_film_review_form() {
 		esc_html_e( '<p>You need to be a site member to be able to submit film reviews. Sign up to gain access!</p>', 'ipanema-film-review' );
 		return;
 	}
+
+	// Retrieve plugin configuration options from database
+	require_once plugin_dir_path( __FILE__ ) . 'admin/ipanema-settings.php';
+	$sitekey = ifr_get_options( );
+	
+
 	?>
 	<h3><?php esc_html_e( 'Add a Film Review', 'ipanema-film-review' ) ?></h3>
 	<form method="post" id="add_film_review" action="" enctype="multipart/form-data">
@@ -1049,7 +1061,7 @@ function ifr_film_review_form() {
 				<td><input type="text" name="twitter_username_fe" /></td>
 			</tr>
 			<tr>
-				<td colspan="2"><div class="g-recaptcha" data-sitekey=""></div></td>
+				<td colspan="2"><div class="g-recaptcha" data-sitekey="<?php esc_html_e( $sitekey['g_recaptcha'], 'ipanema-film-reviews' ); ?>"></div></td>
 			</tr>
 		</table>
 
