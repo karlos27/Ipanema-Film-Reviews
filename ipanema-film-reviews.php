@@ -7,6 +7,7 @@
  * Author URI: https://www.linkedin.com/in/carlossegarragonzalez
  * Version: 1.0
  * Requires at least: 6.0
+ * Tested up to: 6.0.1
  * Requires PHP: 7.0
  * Text Domain: ipanema-film-reviews
  * Domain Path: /languages
