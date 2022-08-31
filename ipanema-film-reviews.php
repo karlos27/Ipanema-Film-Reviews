@@ -113,9 +113,9 @@ function ifr_main_create_film_post_type() {
 		'film_reviews',
 		array(
 			'labels' => array(
-				'name' 			=> esc_html__( 'Film Genre', 'ipanema-film-reviews' ),
-				'add_new_item' 	=> esc_html__( 'Add New Film Genre', 'ipanema-film-reviews' ),
-				'new_item_name' => esc_html__( 'New Film Genre Name', 'ipanema-film-reviews' )
+				'name'			=> esc_html__( 'Film Genre', 'ipanema-film-reviews' ),
+				'add_new_item'	=> esc_html__( 'Add New Film Genre', 'ipanema-film-reviews' ),
+				'new_item_name'	=> esc_html__( 'New Film Genre Name', 'ipanema-film-reviews' )
 			),
 			'show_ui' => true,
 			// 'meta_box_cb' => false,
