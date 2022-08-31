@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/karlos27/Ipanema-Film-Reviews.git
  * Description: This plugin lets you add a film review system to your WordPress site. Using custom post types, administrators will be able to create and edit film reviews to be published on your site. 
  * Author: segcgonz
- * Author URI: https://www.linkedin.com/in/carlossegarragonzalez
+ * Author URI: https://github.com/karlos27
  * Version: 1.0
  * Requires at least: 6.0
  * Tested up to: 6.0.1
@@ -25,19 +25,21 @@ define( 'is_admin', 1 );
 
 // Check if user is visiting administration pages and load external code file if that is the case
 if ( is_admin() ) {
-	include plugin_dir_path( __FILE__ ) . 'admin/ipanema-settings.php';
+	include plugin_dir_path( __FILE__ ) . 'includes/admin/ipanema-settings.php';
 }
+
 
 /****************************************************************************
  * Modify site generator meta tag (header)
  ****************************************************************************/
-add_filter( 'the_generator', 'ifr_generator_filter', 10, 2 );
+add_filter( 'the_generator', 'ifr_main_generator_filter', 10, 2 );
 
-function ifr_generator_filter ( $html, $type ) {
+function ifr_main_generator_filter ( $html, $type ) {
 	if ( $type == 'xhtml' ) {
-		$html = preg_replace( '("WordPress.*?")', '"Ipanema Film Reviews 1.0 "', $html );
+		$html = preg_replace( '("WordPress.*?")', '"Ipanema Film Reviews 1.0"', $html );
 	}
-    return $html;
+    
+	return $html;
 }
 
 
@@ -46,18 +48,18 @@ function ifr_generator_filter ( $html, $type ) {
  ****************************************************************************/
 define('IFR_TRANSLATION_TEXTDOMAIN', 'ipanema-film-reviews');
 
-add_action( 'init', 'ifr_plugin_init' );
+add_action( 'init', 'ifr_main_plugin_init' );
 
-function ifr_plugin_init() {
+function ifr_main_plugin_init() {
 	$locale = apply_filters( 'plugin_locale', get_locale(), IFR_TRANSLATION_TEXTDOMAIN );
 
 	// Search for Translation in /wp-content/languages/plugin/
-	if (file_exists(trailingslashit( WP_LANG_DIR ) . 'plugins' . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo')) {
-		load_plugin_textdomain(IFR_TRANSLATION_TEXTDOMAIN, false, trailingslashit( WP_LANG_DIR ));
+	if (file_exists( trailingslashit( WP_LANG_DIR ) . 'plugins' . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo' ) ) {
+		load_plugin_textdomain( IFR_TRANSLATION_TEXTDOMAIN, false, trailingslashit( WP_LANG_DIR ) );
 	}
 	// Search for Translation in /wp-content/languages/
-	elseif (file_exists(trailingslashit( WP_LANG_DIR ) . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo')) {
-		load_textdomain(IFR_TRANSLATION_TEXTDOMAIN, trailingslashit( WP_LANG_DIR ) . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo');
+	elseif (file_exists( trailingslashit( WP_LANG_DIR ) . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo' ) ) {
+		load_textdomain( IFR_TRANSLATION_TEXTDOMAIN, trailingslashit( WP_LANG_DIR ) . IFR_TRANSLATION_TEXTDOMAIN . '-' . $locale . '.mo' );
 	// Search for Translation in /wp-content/plugins/ipanema-film-reviews/languages/
 	} else {
 		load_plugin_textdomain( IFR_TRANSLATION_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -68,9 +70,9 @@ function ifr_plugin_init() {
 /****************************************************************************
  * Custom post type 'Film Reviews'
  ****************************************************************************/
-add_action( 'init', 'ifr_create_film_post_type' );
+add_action( 'init', 'ifr_main_create_film_post_type' );
 
-function ifr_create_film_post_type() {
+function ifr_main_create_film_post_type() {
   
   // Reset permalinks rules
   global $wp_rewrite;
@@ -129,32 +131,32 @@ function ifr_create_film_post_type() {
  * Adding new section 'Film Review Details', 'Post Source', 'Upload File', 'Twitter feed'
  ****************************************************************************************/
 // Register function to be called when admin interface is visited
-add_action( 'admin_init', 'fr_admin_init' );
+add_action( 'admin_init', 'ifr_main_admin_init_meta_boxes' );
 
 // Function to register new meta box for film review post editor
-function fr_admin_init() {
+function ifr_main_admin_init_meta_boxes() {
 	add_meta_box( 
 		'fr_review_details_meta_box',
          esc_html__( 'Film Review Details', 'ipanema-film-reviews' ),
-        'ifr_display_review_details_meta_box',
+        'ifr_main_display_review_details_meta_box',
         'film_reviews', 'normal', 'high' );
 	
 	add_meta_box( 
 		'fr_source_meta_box',
 		 esc_html__( 'Source', 'ipanema-film-reviews' ),
-		'ifr_display_source_meta_box',
+		'ifr_main_display_source_meta_box',
 		'film_reviews', 'normal', 'high' );
 	
 	add_meta_box( 
 		'fr_upload_file',
 		 esc_html__( 'File attachment', 'ipanema-film-reviews' ),
-		'ifr_upload_meta_box',
+		'ifr_main_upload_meta_box',
 		'film_reviews', 'normal', 'high' );
 
 	add_meta_box( 
 		'fr_twitterfeed',
 		esc_html__( 'Twitter Feed', 'ipanema-film-reviews' ),
-		'ifr_twitter_meta_box',
+		'ifr_main_twitter_meta_box',
 		'film_reviews', 'normal', 'high' );
 	
 	// Remove custom fields meta box
@@ -165,21 +167,21 @@ function fr_admin_init() {
 }
 
 // Register function to be called when post editor form HTML is output
-add_action( 'post_edit_form_tag', 'ifr_form_add_enctype' );
+add_action( 'post_edit_form_tag', 'ifr_main_form_add_enctype' );
 
 // Function to add enctype and encoding types to post editor form
-function ifr_form_add_enctype() {
+function ifr_main_form_add_enctype() {
 	echo ' enctype="multipart/form-data"';
 }
 
 // Function to display the Film Review Details meta box
-function ifr_display_review_details_meta_box( $film_review ) { 
+function ifr_main_display_review_details_meta_box( $film_review ) { 
 	// Retrieve current author, actors, length, release date and rating based on film review ID
-	$film_author     = esc_html( get_post_meta( $film_review->ID, 'film_author', true ) );
-  	$film_actors 	 = esc_html( get_post_meta( $film_review->ID, 'film_actors', true ) );
-  	$film_length     = intval( get_post_meta( $film_review->ID, 'film_length', true ) );
-  	$film_rdate      = esc_html( get_post_meta( $film_review->ID, 'film_rdate', true ) );
-	$film_rating     = intval( get_post_meta( $film_review->ID, 'film_rating', true ) );
+	$film_author     = sanitize_text_field( get_post_meta( $film_review->ID, 'film_author', true ) );
+  	$film_actors 	 = sanitize_text_field( get_post_meta( $film_review->ID, 'film_actors', true ) );
+  	$film_length     = sanitize_text_field( intval( get_post_meta( $film_review->ID, 'film_length', true ) ) );
+  	$film_rdate      = sanitize_text_field( get_post_meta( $film_review->ID, 'film_rdate', true ) );
+	$film_rating     = sanitize_text_field( intval( get_post_meta( $film_review->ID, 'film_rating', true ) ) );
   
 	?>
 	<table>
@@ -216,9 +218,9 @@ function ifr_display_review_details_meta_box( $film_review ) {
 <?php }
 
 // Register function to be called when posts are saved
-add_action( 'save_post', 'ifr_add_film_review_fields', 10, 2 );
+add_action( 'save_post', 'ifr_main_add_film_review_fields', 10, 2 );
 
-function ifr_add_film_review_fields( $film_review_id, $film_review ) {
+function ifr_main_add_film_review_fields( $film_review_id, $film_review ) {
 	// Check post type for film reviews
 	if ( 'film_reviews' == $film_review->post_type ) {
 		// Store data in post meta table if present in post data
@@ -245,10 +247,10 @@ function ifr_add_film_review_fields( $film_review_id, $film_review ) {
 }
 
 // Function to display the Post/Page Source meta box contents
-function ifr_display_source_meta_box( $film_review ) { 
+function ifr_main_display_source_meta_box( $film_review ) { 
 	// Retrieve current source name and address based on post ID
-	$custom_source_name 		= esc_html( get_post_meta( $film_review->ID, 'custom_post_source_name', true ) );
-	$custom_source_address 		= esc_html( get_post_meta( $film_review->ID, 'custom_post_source_address', true ) );
+	$custom_source_name 	= sanitize_text_field( get_post_meta( $film_review->ID, 'custom_post_source_name', true ) );
+	$custom_source_address 	= sanitize_text_field( get_post_meta( $film_review->ID, 'custom_post_source_address', true ) );
 	?>
 
 	<!-- Display fields to enter and edit source name and source address -->
@@ -269,9 +271,9 @@ function ifr_display_source_meta_box( $film_review ) {
 <?php }
 
 // Register function to be called when custom post is being saved
-add_action( 'save_post', 'ifr_add_film_reviews_source_data', 10, 2 );
+add_action( 'save_post', 'ifr_main_add_film_reviews_source_data', 10, 2 );
 
-function ifr_add_film_reviews_source_data( $film_review_id, $film_review ) {
+function ifr_main_add_film_reviews_source_data( $film_review_id, $film_review ) {
 	// Check post type for posts or pages
 	if ( 'film_reviews' == $film_review->post_type ) {
 		// Store data in post meta table if present in post data
@@ -286,7 +288,7 @@ function ifr_add_film_reviews_source_data( $film_review_id, $film_review ) {
 }
 
 // Function to display the Upload PDF attachment meta box
-function ifr_upload_meta_box( $film_review )
+function ifr_main_upload_meta_box( $film_review )
 { ?>
 	<table>
 		<tr>
@@ -319,9 +321,9 @@ function ifr_upload_meta_box( $film_review )
 <?php }
 
 // Register function to be called when post is being saved
-add_action( 'save_post', 'ifr_save_uploaded_file', 10, 2 );
+add_action( 'save_post', 'ifr_main_save_uploaded_file', 10, 2 );
 
-function ifr_save_uploaded_file( $film_review_id, $film_review )
+function ifr_main_save_uploaded_file( $film_review_id, $film_review )
 {
 	if ( isset($_POST['delete_attachment'] ) ) {
 		$attach_data = get_post_meta( $film_review_id, 'attach_data', true );
@@ -367,8 +369,8 @@ function ifr_save_uploaded_file( $film_review_id, $film_review )
 }
 
 // Function to display Twitter feed meta box content
-function ifr_twitter_meta_box( $film_review ) { 
-	$twitterfeed_name = esc_html( get_post_meta( $film_review->ID, 'twitter_feed_name', true ) );
+function ifr_main_twitter_meta_box( $film_review ) { 
+	$twitterfeed_name = sanitize_text_field(  get_post_meta( $film_review->ID, 'twitter_feed_name', true ) );
 	?>
 
 	<!-- Display fields to enter and edit source name and source address -->
@@ -384,9 +386,9 @@ function ifr_twitter_meta_box( $film_review ) {
 }
 
 // Register function to be called when custom post is being saved
-add_action( 'save_post', 'ifr_add_film_reviews_twitter_data', 10, 2 );
+add_action( 'save_post', 'ifr_main_add_film_reviews_twitter_data', 10, 2 );
 
-function ifr_add_film_reviews_twitter_data( $film_review_id, $film_review ) {
+function ifr_main_add_film_reviews_twitter_data( $film_review_id, $film_review ) {
 	// Check post type for posts or pages
 	if ( 'film_reviews' == $film_review->post_type ) {
 		// Store data in post meta table if present in post data
@@ -401,17 +403,17 @@ function ifr_add_film_reviews_twitter_data( $film_review_id, $film_review ) {
  * Custom layout for 'Film Reviews'
  ************************************************************************************/
 // Associate function to queue stylesheet to be output in page header
-add_action( 'wp_enqueue_scripts', 'ifr_queue_stylesheet' );
+add_action( 'wp_enqueue_scripts', 'ifr_main_queue_stylesheet' );
 
 // Function to load style in stylesheet queue
-function ifr_queue_stylesheet() {
+function ifr_main_queue_stylesheet() {
 	wp_enqueue_style( 'contentstyle', plugins_url( 'css/content/style.css', __FILE__ ) );
 }
 
 //Modify template
-add_filter( 'template_include', 'ifr_template_include', 1 );
+add_filter( 'template_include', 'ifr_main_template_include', 1 );
 
-function ifr_template_include( $template_path ){
+function ifr_main_template_include( $template_path ){
 	
 	if ( 'film_reviews' == get_post_type() ) {
 		if ( is_single() ) {
@@ -420,7 +422,7 @@ function ifr_template_include( $template_path ){
 			if ( $theme_file = locate_template( array( 'single-film_reviews.php' ) ) ) {
 				$template_path = $theme_file;
 			} else {
-				add_filter( 'the_content', 'ifr_display_single_film_review', 20 );
+				add_filter( 'the_content', 'ifr_main_display_single_film_review', 20 );
 			}
 		}
 	}	
@@ -428,7 +430,7 @@ function ifr_template_include( $template_path ){
 	return $template_path;
 }
 
-function ifr_display_single_film_review( $content ) {
+function ifr_main_display_single_film_review( $content ) {
   if ( !empty( get_the_ID() ) ) {
       // Display featured image in right-aligned floating div
       $content .= '<div id="thumbnail_single_post" >';
@@ -512,9 +514,6 @@ function ifr_display_single_film_review( $content ) {
 		// Build url to mail message icon downloaded from iconarchive.com 
 		$mail_icon_url 	= plugins_url( 'media/mailicon.png', __FILE__ );
 
-		// Get option admin_email
-		$admin_email 	= get_option( 'admin_email' );
-
 		// Set value/s for the email contents
 		$email_title 	= 'Email article link';
 		$email_link 	= urlencode ( get_post_permalink( get_the_ID() ) );
@@ -523,7 +522,7 @@ function ifr_display_single_film_review( $content ) {
 		// the item title and permanent URL
 		$content .= '<div class="email_link">';
 		$content .= '<a title="' . $email_title . '" ';
-		$content .= 'href="mailto:' . $admin_email . '?';
+		$content .= 'href="mailto:' . '?';
 		$content .= 'subject=' . esc_html__( 'Check out this interesting article entitled', 'ipanema-film-reviews' ) . ' '; 
 		$content .= '' . get_the_title(); 
 		$content .= '&body=' . esc_html__( 'Hi!%0A%0AI thought you would enjoy this article entitled', 'ipanema-film-reviews' ) . ' ';
@@ -567,14 +566,14 @@ function ifr_display_single_film_review( $content ) {
  * Display Film custom post type data in shortcode
  ****************************************************************************/
 // Create shortcode (Film list)
-add_shortcode( 'film-review-list', 'ifr_film_review_list' );
+add_shortcode( 'film-review-list', 'ifr_main_film_review_list' );
 
 // Implementation of short code function
-function ifr_film_review_list() {
+function ifr_main_film_review_list() {
 	// Preparation of query array to retrieve 5 film reviews
 	$query_params = array( 'post_type' 		=> 'film_reviews',
                            'post_status' 	=> 'publish',
-                           'posts_per_page' => 3 );
+                           'posts_per_page' => 5 );
 	
 	// Retrieve page query variable, if present
 	$page_num = ( get_query_var( 'paged' ) ) ? 
@@ -631,11 +630,11 @@ function ifr_film_review_list() {
  * Display additional columns in Film custom post list page
  ****************************************************************************/
 // Register function to be called when column list is being prepared
-add_filter( 'manage_edit-film_reviews_columns', 'ifr_add_columns' );
+add_filter( 'manage_edit-film_reviews_columns', 'ifr_main_add_columns' );
 
 // Function to add columns for director, main actors, movie length, release date and genre in film review listing
 // and remove comments columns
-function ifr_add_columns( $columns ) {
+function ifr_main_add_columns( $columns ) {
 	$columns['film_reviews_author']     = esc_html__( 'Film Director', 'ipanema-film-reviews' );
   	$columns['film_reviews_actors']     = esc_html__( 'Supporting actors', 'ipanema-film-reviews' );
   	$columns['film_reviews_length']     = esc_html__( 'Film Length', 'ipanema-film-reviews' );
@@ -648,39 +647,39 @@ function ifr_add_columns( $columns ) {
 }
 
 // Register function to be called when custom post columns are rendered
-add_action( 'manage_posts_custom_column', 'ifr_populate_columns' );
+add_action( 'manage_posts_custom_column', 'ifr_main_populate_columns' );
 
 // Function to send data for custom columns when displaying items
-function ifr_populate_columns( $column ) {
+function ifr_main_populate_columns( $column ) {
 	//global $post;
 
 	// Check column name and send back appropriate data
 	if ( 'film_reviews_author' == $column ) {
-		$film_author = esc_html( get_post_meta( get_the_ID(), 'film_author', true ) );
-		echo $film_author;
+		$film_author = get_post_meta( get_the_ID(), 'film_author', true );
+		esc_html_e( $film_author, 'ipanema-film-reviews' );
 	}
   	elseif ( 'film_reviews_actors' == $column ) {
-		$film_actors = esc_html( get_post_meta( get_the_ID(), 'film_actors', true ) );
-		echo $film_actors;
+		$film_actors = get_post_meta( get_the_ID(), 'film_actors', true );
+		esc_html_e( $film_actors, 'ipanema-film-reviews' );
 	}
   	elseif ( 'film_reviews_length' == $column ) {
-		$film_length = esc_html( get_post_meta( get_the_ID(), 'film_length', true ) );
-		echo $film_length . '\'';
+		$film_length = get_post_meta( get_the_ID(), 'film_length', true );
+		esc_html_e( $film_length . '\'', 'ipanema-film-reviews' );
 	}
   	elseif ( 'film_reviews_rdate' == $column ) {
-		$rdate       = esc_html( get_post_meta( get_the_ID(), 'film_rdate', true ) );
+		$rdate       = get_post_meta( get_the_ID(), 'film_rdate', true );
     	$film_rdate  = date( 'd/m/Y', strtotime( $rdate ) );
-		echo $film_rdate;
+		esc_html_e( $film_rdate, 'ipanema-film-reviews' );
 	}
 	elseif ( 'film_reviews_rating' == $column ) {
 		$film_rating = get_post_meta( get_the_ID(), 'film_rating', true );
-		echo $film_rating . esc_html__(' stars', 'ipanema-film-reviews');
+		esc_html_e( $film_rating, 'ipanema-film-reviews' ) . esc_html__(' stars', 'ipanema-film-reviews');
 	}
 	elseif ( 'film_reviews_type' == $column ) {
 		$film_types = wp_get_post_terms( get_the_ID(), 'film_reviews_film_type' );
 
 		if ( $film_types ) {
-      		echo $film_types[0]->name;
+			esc_html_e( $film_types[0]->name, 'ipanema-film-reviews' );
 		} else {
 			esc_html_e( 'None Assigned', 'ipanema-film-reviews' ); 
 		}
@@ -688,10 +687,10 @@ function ifr_populate_columns( $column ) {
 }
 
 // Let's make sortable columns
-add_filter( 'manage_edit-film_reviews_sortable_columns', 'ifr_column_sortable' );
+add_filter( 'manage_edit-film_reviews_sortable_columns', 'ifr_main_column_sortable' );
 
 // Register the director, release date and rating columns are sortable columns
-function ifr_column_sortable( $columns ) {
+function ifr_main_column_sortable( $columns ) {
 	$columns['film_reviews_author']  = 'film_reviews_author';
   	$columns['film_reviews_rdate']   = 'film_reviews_rdate';
 	$columns['film_reviews_rating']  = 'film_reviews_rating';
@@ -701,10 +700,10 @@ function ifr_column_sortable( $columns ) {
 
 // Register function to be called when queries are being prepared to
 // display post listing
-add_filter( 'request', 'ifr_column_ordering' );
+add_filter( 'request', 'ifr_main_column_ordering' );
 
 // Function to add elements to query variable based on incoming arguments
-function ifr_column_ordering( $vars ) {
+function ifr_main_column_ordering( $vars ) {
 	if ( !is_admin() ) {
 		return $vars;
 	}
@@ -737,10 +736,10 @@ function ifr_column_ordering( $vars ) {
  * post list page
  ****************************************************************************/
 // Register function to be called when displaying post filter drop-down lists
-add_action( 'restrict_manage_posts', 'ifr_film_type_filter_list' );
+add_action( 'restrict_manage_posts', 'ifr_main_film_type_filter_list' );
 
 // Function to display film type drop-down list for film reviews
-function ifr_film_type_filter_list() {
+function ifr_main_film_type_filter_list() {
 	$screen = get_current_screen(); 
     global $wp_query; 
 	if ( 'film_reviews' == $screen->post_type ) {
@@ -761,10 +760,10 @@ function ifr_film_type_filter_list() {
 }
 
 // Register function to be called when preparing post query
-add_filter( 'parse_query', 'ifr_perform_film_type_filtering' );
+add_filter( 'parse_query', 'ifr_main_perform_film_type_filtering' );
 
 // Function to modify query variable based on filter selection
-function ifr_perform_film_type_filtering( $query ) {
+function ifr_main_perform_film_type_filtering( $query ) {
 	$qv = &$query->query_vars;
 
 	if ( isset( $qv['film_reviews_film_type'] ) &&
@@ -780,32 +779,57 @@ function ifr_perform_film_type_filtering( $query ) {
 /****************************************************************************
  * Adding Quick Edit fields for custom categories
  ****************************************************************************/
-add_action( 'quick_edit_custom_box', 'ifr_display_custom_quickedit_link', 10, 2 );
+add_action( 'quick_edit_custom_box', 'ifr_main_display_custom_quickedit_link', 10, 2 );
 
-function ifr_display_custom_quickedit_link( $column_name, $post_type ) {
+function ifr_main_display_custom_quickedit_link( $column_name, $post_type ) {
     if ( 'film_reviews' == $post_type ) {
         switch ( $column_name ) {
             case 'film_reviews_author': ?>
                 <fieldset class="inline-edit-col-right">
                 <div class="inline-edit-col">
-                    <label><span class="title"><?php esc_html_e( 'Film director', 'ipanema-film-reviews' ); ?></span></label>
+                    <label><span class="title" style="width: -webkit-fill-available"><?php esc_html_e( 'Film director', 'ipanema-film-reviews' ); ?></span></label>
                     <input type="text" name='film_reviews_author_input'
-                           id='film_reviews_author_input' value="">
+                           id='film_reviews_author_input' value="" style="width: 50%;">
+                </div>
+            <?php break;
+			case 'film_reviews_actors': ?>
+                <fieldset class="inline-edit-col">
+                <div class="inline-edit-col">
+                    <label><span class="title" style="width: -webkit-fill-available"><?php esc_html_e( 'Supporting actors', 'ipanema-film-reviews' ); ?></span></label>
+                    <input type="text" name='film_reviews_actors_input'
+                           id='film_reviews_actors_input' value="" style="width: 50%;">
+                </div>
+            <?php break;
+			case 'film_reviews_length': ?>
+                <fieldset class="inline-edit-col">
+                <div class="inline-edit-col">
+                    <label><span class="title" style="width: -webkit-fill-available"><?php esc_html_e( 'Film Length', 'ipanema-film-reviews' ); ?></span></label>
+                    <input type="number" name='film_reviews_length_input'
+                           id='film_reviews_length_input' value="" style="width: 50%;">
+                </div>
+            <?php break;
+			case 'film_reviews_rdate': ?>
+                <fieldset class="inline-edit-col">
+                <div class="inline-edit-col">
+                    <label><span class="title" style="width: -webkit-fill-available"><?php esc_html_e( 'Release date', 'ipanema-film-reviews' ); ?></span></label>
+                    <input type="date" name='film_reviews_rdate_input'
+                           id='film_reviews_rdate_input' value="" style="width: 50%;">
                 </div>
             <?php break;
             case 'film_reviews_rating': ?>
                 <div class="inline-edit-col">
-                    <label><span class="title"><?php esc_html_e( 'Rating', 'ipanema-film-reviews' ); ?></span></label>
+                    <label><span class="title" style="width:-webkit-fill-available"><?php esc_html_e( 'Rating', 'ipanema-film-reviews' ); ?></span></label>
                     <select name='film_reviews_rating_input'
-                            id='film_reviews_rating_input'>
+                            id='film_reviews_rating_input' style="width: 50%;">
                     <?php // Generate all items of drop-down list 
                     for ( $rating = 5; $rating >= 1; $rating -- ) { ?> 
-                        <option value="<?php echo $rating; ?>">
-                        <?php echo $rating; esc_html_e( ' stars', 'ipanema-film-reviews'); ?>
+                        <option value="<?php esc_html_e( $rating, 'ipanema-film-reviews' ); ?>">
+                        <?php esc_html_e( $rating, 'ipanema-film-reviews' ); esc_html_e( ' stars', 'ipanema-film-reviews' ); ?>
                     <?php } ?> 
                     </select>
                 </div>
             <?php break;
+			/*
             case 'film_reviews_type': ?>
                 <div class="inline-edit-col">
                     <label><span class="title"><?php esc_html_e( 'Genre', 'ipanema-film-reviews' ); ?></span></label>
@@ -814,24 +838,24 @@ function ifr_display_custom_quickedit_link( $column_name, $post_type ) {
                              array( 'taxonomy' => 'film_reviews_film_type',
                                     'hide_empty' => false ) );
                     ?>
-                    <select name='film_reviews_type_input'
-                            id='film_reviews_type_input'>
-                    <?php foreach ($terms as $index => $term) {
-                        echo '<option class="film_reviews_type-option"';
-                        echo 'value="' . $term->term_id . '"';
-                        selected( 0, $index );
-                        echo '>' . $term->name. '</option>';
-                    } ?>
+                    <select name='film_reviews_type_input' id='film_reviews_type_input'>
+                    	<?php foreach ($terms as $index => $term) { ?>
+                        <option class="film_reviews_type-option"
+						 value="<?php esc_html_e( $term->term_id, 'ipanema-film-reviews' ); ?>" 
+						 selected( 0, $index )><?php esc_html_e( $term->name, 'ipanema-film-reviews' ); ?></option>;
+						<?php
+						} ?>
                     </select>
                 </div>
             <?php break;
+			*/
         } 
     } 
 }
 
-add_action( 'admin_footer', 'ifr_quick_edit_js' );
+add_action( 'admin_footer', 'ifr_main_quick_edit_js' );
 
-function ifr_quick_edit_js() {
+function ifr_main_quick_edit_js() {
     global $current_screen;
     if ( ( 'edit-film_reviews' !== $current_screen->id ) ||
          ( 'film_reviews' !== $current_screen->post_type ) ) {
@@ -839,7 +863,7 @@ function ifr_quick_edit_js() {
     } ?>
 
     <script type="text/javascript">
-    function set_inline_film_reviews( filmReviewArray ) {
+    function set_main_inline_film_reviews( filmReviewArray ) {
         // revert Quick Edit menu so that it refreshes properly
         inlineEditPost.revert();
         var inputfilmAuthor = 
@@ -855,8 +879,21 @@ function ifr_quick_edit_js() {
             } else {
                 inputRating.options[i].removeAttribute( 'selected' );
             }
-        } 
- 
+        }
+
+		var inputfilmActors = 
+            document.getElementById('film_reviews_actors_input');
+				inputfilmActors.value = filmReviewArray[2];
+
+		var inputfilmLength = 
+            document.getElementById('film_reviews_length_input');
+				inputfilmLength.value = filmReviewArray[3];
+
+		var inputfilmRdate = 
+            document.getElementById('film_reviews_rdate_input');
+				inputfilmRdate.value = filmReviewArray[4];
+				// console.log( filmReviewArray[4] );
+		/*
         var inputfilmType =
             document.getElementById('film_reviews_type_input');
         for (i = 0; i < inputfilmType.options.length; i++) {
@@ -867,13 +904,14 @@ function ifr_quick_edit_js() {
                 inputfilmType.options[i].removeAttribute( 'selected' );
             }
         } 
+		*/
     }
  	</script>
  <?php }
  
- add_filter( 'post_row_actions', 'ifr_quick_edit_link', 10, 2 );
+ add_filter( 'post_row_actions', 'ifr_main_quick_edit_link', 10, 2 );
  
- function ifr_quick_edit_link( $actions, $post ) {
+ function ifr_main_quick_edit_link( $actions, $post ) {
     global $current_screen;
     $post_id = '';
 
@@ -892,33 +930,41 @@ function ifr_quick_edit_js() {
     }
 
     if ( !empty( $post_id ) ) {
-        $film_author 		= esc_html( get_post_meta( $post_id, 
+        $film_author 	= esc_html( get_post_meta( $post_id, 
                                      'film_author', true ) ); 
-        $film_rating 		= esc_html( get_post_meta( $post_id, 
+        $film_rating 	= esc_html( get_post_meta( $post_id, 
                                      'film_rating', true ) );
-        $film_reviews_types = wp_get_post_terms( $post_id, 
+		$film_actors 	= esc_html( get_post_meta( $post_id, 
+                                     'film_actors', true ) );
+		$film_length 	= esc_html( get_post_meta( $post_id, 
+                                     'film_length', true ) );
+		$film_rdate 	= esc_html( get_post_meta( $post_id, 
+                                     'film_rdate', true ) );
+        /*
+		$film_reviews_types = wp_get_post_terms( $post_id, 
                                      'film_reviews_film_type',
                                      array( 'fields' => 'all' ) );
 		if ( empty( $film_reviews_types ) ) {
 			$film_reviews_types[0] = (object) array( 'term_id' => 0 );
 		}
+		*/
  
         $idx = 'inline hide-if-no-js';
         $actions[$idx] = '<a href="#" class="editinline" title="';
         $actions[$idx] .= esc_attr( esc_html__( 'Edit this item inline', 'ipanema-film-review' ) ) . '" ';
         $actions[$idx] .= " onclick=\"var filmReviewArray = new Array('";
-        $actions[$idx] .= "{$film_author}', '{$film_rating}', ";
-        $actions[$idx] .= "'{$film_reviews_types[0]->term_id}');";
-        $actions[$idx] .= "set_inline_film_reviews(filmReviewArray)\">";
+        $actions[$idx] .= "{$film_author}', '{$film_rating}', '{$film_actors}', '{$film_length}', '{$film_rdate}');";
+        // $actions[$idx] .= "'{$film_reviews_types[0]->term_id}');";
+        $actions[$idx] .= "set_main_inline_film_reviews(filmReviewArray)\">";
         $actions[$idx] .= esc_html__( 'Quick&nbsp;Edit', 'ipanema-film-reviews' );
         $actions[$idx] .= '</a>';
     }
     return $actions;
 }
 
-add_action( 'save_post', 'ifr_save_quick_edit_data', 10, 2 );
+add_action( 'save_post', 'ifr_main_save_quick_edit_data', 10, 2 );
 
-function ifr_save_quick_edit_data( $ID = false, $post = false ) {
+function ifr_main_save_quick_edit_data( $ID = false, $post = false ) {
     // Do not save if auto-saving, not film reviews, no permissions
     if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ||
          ( isset( $_POST['post_type'] ) && 'film_reviews' != $_POST['post_type'] ) ||
@@ -935,9 +981,24 @@ function ifr_save_quick_edit_data( $ID = false, $post = false ) {
  
         if ( isset( $_POST['film_reviews_rating_input'] ) ) {
             update_post_meta( $ID, 'film_rating', 
-                intval( $_POST['film_reviews_rating_input'] ) ); 
+              intval( $_POST['film_reviews_rating_input'] ) ); 
         }
- 
+
+		if ( isset( $_POST['film_reviews_actors_input'] ) ) {
+            update_post_meta( $ID, 'film_actors', 
+			  sanitize_text_field( $_POST['film_reviews_actors_input'] ) ); 
+        }
+
+		if ( isset( $_POST['film_reviews_length_input'] ) ) {
+            update_post_meta( $ID, 'film_length', 
+			  sanitize_text_field( $_POST['film_reviews_length_input'] ) ); 
+        }
+
+		if ( isset( $_POST['film_reviews_rdate_input'] ) ) {
+            update_post_meta( $ID, 'film_rdate', 
+			  sanitize_text_field( $_POST['film_reviews_rdate_input'] ) ); 
+        }
+		/*
         if ( isset( $_POST['film_reviews_type_input'] ) ) {
             $term = term_exists( 
                         intval( $_POST['film_reviews_type_input'] ),
@@ -948,6 +1009,7 @@ function ifr_save_quick_edit_data( $ID = false, $post = false ) {
                             'film_reviews_film_type' );
             }
         }
+		*/
     } 
 }
 
@@ -955,134 +1017,144 @@ function ifr_save_quick_edit_data( $ID = false, $post = false ) {
  * Client-side content submission form
  ****************************************************************************/
 // Declare shortcode and specify function to be called when found
-add_shortcode( 'submit-film-review', 'ifr_film_review_form' );
+add_shortcode( 'submit-film-review', 'ifr_main_film_review_form' );
 
 // Function to replace shortcode with content when found
-function ifr_film_review_form() { 
+function ifr_main_film_review_form() { 
 
 	// make sure user is logged in
 	if ( !is_user_logged_in() ) {
-		esc_html_e( '<p>You need to be a site member to be able to submit film reviews. Sign up to gain access!</p>', 'ipanema-film-review' );
+		?>
+		<p><?php esc_html_e( 'You need to be a site member to be able to submit film reviews. Sign up to gain access!', 'ipanema-film-review' ); ?></p>
+		<?php
 		return;
 	}
 
 	// Retrieve plugin configuration options from database
-	require_once plugin_dir_path( __FILE__ ) . 'admin/ipanema-settings.php';
-	$sitekey = ifr_get_options( );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/admin/ipanema-settings.php';
 	
+	$sitekey     = ifr_settings_get_options( );
+	$g_recaptcha = sanitize_option( 'ifr_options', $sitekey['g_recaptcha'] );
 
-	?>
-	<h3><?php esc_html_e( 'Add a Film Review', 'ipanema-film-review' ) ?></h3>
-	<form method="post" id="add_film_review" action="" enctype="multipart/form-data">
-		<!-- Nonce fields to verify visitor provenance -->
-		<?php wp_nonce_field( 'add_review_form', 'fr_user_form' ); ?>
+	if( empty( $g_recaptcha ) ) {
+		esc_html_e( 'reCaptcha Site key is missing. It must be set to submit a film review.', 'ipanema-film-review' );
+		return;
+	} else {
+		?>
+		<h3><?php esc_html_e( 'Add a Film Review', 'ipanema-film-reviews' ); ?></h3>
 		
-		<!-- Display confirmation message to users who submit a film review -->
-		<?php if ( !empty( $_GET['add_review_message'] ) ) { ?>
-		<div style="margin: 8px;border: 1px solid #ddd;background-color: #ff0;">
-			<?php esc_html_e( 'Thank for your submission!', 'ipanema-film-review' ) ?>
-		</div>
-		<?php } ?>
-		
-	    <!-- Post variable to indicate user-submitted items -->
-		<input type="hidden" name="user_film_review_fe" value="1" />
-		
-		<table>
-			<tr>
-				<td><?php esc_html_e( 'Film Title', 'ipanema-film-review' ) ?></td>
-				<td><input type="text" name="film_title_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Film Director', 'ipanema-film-review' ) ?></td>
-				<td><input type="text" name="film_author_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Supporting Actors', 'ipanema-film-review' ) ?></td>
-				<td><input type="text" name="film_actors_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Film Length', 'ipanema-film-review' ) ?></td>
-				<td><input type="number" name="film_length_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Release Date', 'ipanema-film-review' ) ?></td>
-				<td><input type="date" name="film_rdate_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Film Review', 'ipanema-film-review' ) ?></td>
-				<td><textarea name="film_review_text_fe"></textarea></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Rating', 'ipanema-film-review' ) ?></td>
-				<td>
-					<select name="film_review_rating_fe">
-					<?php
-					// Generate all rating items in drop-down list
-					for ( $rating = 5; $rating >= 1; $rating-- ) { ?>
-						<option value="<?php echo $rating; ?>"><?php echo $rating; ?> stars
-					<?php } ?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Genre', 'ipanema-film-review' ); ?></td>
-				<td>
-					<?php 
+		<form method="post" id="add_film_review" action="" enctype="multipart/form-data">
+			<!-- Nonce fields to verify visitor provenance -->
+			<?php wp_nonce_field( 'add_review_form', 'fr_user_form' ); ?>
+			
+			<!-- Display confirmation message to users who submit a film review -->
+			<?php if ( !empty( $_GET['add_review_message'] ) ) { ?>
+			<div style="margin: 8px;border: 1px solid #ddd;background-color: #ff0;">
+				<?php esc_html_e( 'Thank you for your submission!', 'ipanema-film-review' ) ?>
+			</div>
+			<?php } ?>
+			
+			<!-- Post variable to indicate user-submitted items -->
+			<input type="hidden" name="user_film_review_fe" value="1" />
+			
+			<table>
+				<tr>
+					<td><?php esc_html_e( 'Film Title', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="film_title_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Film Director', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="film_author_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Supporting Actors', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="film_actors_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Film Length', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="number" name="film_length_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Release Date', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="date" name="film_rdate_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Film Review', 'ipanema-film-reviews' ); ?></td>
+					<td><textarea name="film_review_text_fe"></textarea></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Rating', 'ipanema-film-reviews' ); ?></td>
+					<td>
+						<select name="film_review_rating_fe">
+						<?php
+						// Generate all rating items in drop-down list
+						for ( $rating = 5; $rating >= 1; $rating-- ) { ?>
+							<option value="<?php esc_html_e( $rating, 'ipanema-film-reviews' ); ?>"><?php esc_html_e( $rating . ' stars', 'ipanema-film-review' ); ?></option>
+						<?php } ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Genre', 'ipanema-film-reviews' ); ?></td>
+					<td>
+						<?php 
 
-					// Retrieve array of all film types in system
-					$film_types = get_terms( 'film_reviews_film_type', array( 'orderby' => 'name', 'hide_empty' => 0 ) );
+						// Retrieve array of all film types in system
+						$film_types = get_terms( 'film_reviews_film_type', array( 'orderby' => 'name', 'hide_empty' => 0 ) );
 
-					// Check if film types were found
-					if ( !is_wp_error( $film_types ) && !empty( $film_types ) ) {
-						echo '<select name="film_review_film_type">';
+						// Check if film types were found
+						if ( !is_wp_error( $film_types ) && !empty( $film_types ) ) { ?>
+							<select name="film_review_film_type">;
+							<?php
+							// Display all film types
+							foreach ( $film_types as $film_type ) {	?>			
+								<option value="<?php esc_html_e( $film_type->term_id, 'ipanema-film-reviews' ); ?>"><?php esc_html_e( $film_type->name, 'ipanema-film-reviews' ); ?></option>;
+							<?php
+							} ?>		
+							</select>
+							<?php
+						} ?>
+					</td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Source Name', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="source_name_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Source Address', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="source_address_fe" /></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Thumbnail ', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="file" name="thumbnail"/></td>
+				</tr>
+				<tr>
+					<td><?php esc_html_e( 'Twitter account', 'ipanema-film-reviews' ); ?></td>
+					<td><input type="text" name="twitter_username_fe" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><div class="g-recaptcha" data-sitekey="<?php esc_html_e( $g_recaptcha, 'ipanema-film-reviews' ); ?>"></div></td>
+				</tr>
+			</table>
 
-						// Display all film types
-						foreach ( $film_types as $film_type ) {				
-							echo '<option value="' . $film_type->term_id . '">' . $film_type->name . '</option>';
-						}		
-						echo '</select>';
-					} ?>
-				</td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Source Name', 'ipanema-film-reviews' ); ?></td>
-				<td><input type="text" name="source_name_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Source Address', 'ipanema-film-reviews' ); ?></td>
-				<td><input type="text" name="source_address_fe" /></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Thumbnail ', 'ipanema-film-reviews' ); ?></td>
-				<td><input type="file" name="thumbnail"/></td>
-			</tr>
-			<tr>
-				<td><?php esc_html_e( 'Twitter account', 'ipanema-film-reviews' ); ?></td>
-				<td><input type="text" name="twitter_username_fe" /></td>
-			</tr>
-			<tr>
-				<td colspan="2"><div class="g-recaptcha" data-sitekey="<?php esc_html_e( $sitekey['g_recaptcha'], 'ipanema-film-reviews' ); ?>"></div></td>
-			</tr>
-		</table>
-
-		<input type="submit" name="submit" value="Submit Review" />
-	</form>
+			<input type="submit" name="submit" value="Submit Review" />
+		</form>
 
 <?php }
+}
 
 // Let's save data from front-end form
-add_action( 'template_redirect', 'ifr_match_new_film_reviews' );
+add_action( 'template_redirect', 'ifr_main_match_new_film_reviews' );
 
-function ifr_match_new_film_reviews( $template ) {	
+function ifr_main_match_new_film_reviews( $template ) {	
 	if ( !empty( $_POST['user_film_review_fe'] ) ) {
-		ifr_process_user_film_reviews();
+		ifr_main_process_user_film_reviews();
 	} else {
 		return $template;
 	}		
 }
 
-function ifr_process_user_film_reviews() {
-
+function ifr_main_process_user_film_reviews() {
 	// Check that all required fields are present and non-empty
 	if ( wp_verify_nonce( $_POST['fr_user_form'], 'add_review_form' ) && 
 		 !empty( $_POST['film_title_fe'] ) && 
@@ -1101,9 +1173,9 @@ function ifr_process_user_film_reviews() {
 		// Create array with received data
 		$new_film_review_data = array(
 				'post_status' 	=> 'draft', // Drafts posts are not yet published
-				'post_title' 	=> $_POST['film_title_fe'],
+				'post_title' 	=> sanitize_text_field( $_POST['film_title_fe'] ),
 				'post_type' 	=> 'film_reviews',
-				'post_content' 	=> $_POST['film_review_text_fe']
+				'post_content' 	=> sanitize_textarea_field( $_POST['film_review_text_fe'] )
 			);
 
 		// Insert new post in site database
@@ -1141,7 +1213,7 @@ function ifr_process_user_film_reviews() {
 					$upload_file 	= wp_handle_upload( $_FILES[ 'thumbnail' ], array( 'test_form' => false ) );				
 									
 					// Set title for the array attachment
-					$title			= $_POST['film_title_fe'];				
+					$title			= sanitize_text_field( $_POST['film_title_fe'] );				
 					
 					$thumbnail_id 	= wp_insert_attachment(
 							array(
@@ -1170,32 +1242,42 @@ function ifr_process_user_film_reviews() {
 
 		// Redirect browser to film review submission page
 		$redirect_address = ( empty( $_POST['_wp_http_referer'] ) ? site_url() : $_POST['_wp_http_referer'] );
-		wp_redirect( add_query_arg( 'add_review_message', '1', $redirect_address ) );
+		$address          = esc_html__( $redirect_address, 'ipanema-film-reviews' );
+		wp_redirect( add_query_arg( 'add_review_message', '1', $address ) );
 		exit;
 	} else {
 		// Display error message if any required fields are missing
 		// or if form did not have valid nonce fields.		
-		$abort_message = esc_html__( 'Some fields were left empty. Please go back and complete the form.',  'ipanema-film-reviews' ); 
+		$abort_message = esc_html__( 'Some fields were left empty. Please go back and complete the form.', 'ipanema-film-reviews' ); 
         wp_die( $abort_message ); 
 		exit;
 	}
 }
 
-add_action( 'wp_insert_post', 'ifr_send_email', 10, 2 );
+add_action( 'wp_insert_post', 'ifr_main_send_email', 10, 2 );
 
-function ifr_send_email( $post_id, $post ) {
+function ifr_main_send_email( $post_id, $post ) {
 	// Only send e-mails for user-submitted book reviews
 	if ( isset( $_POST['user_film_review_fe'] ) && 'film_reviews' == $post->post_type ) {
 		$headers = 'Content-type: text/html';
+		
+		// Retrieve plugin configuration options from database
+		require_once plugin_dir_path( __FILE__ ) . 'includes/admin/ipanema-settings.php';
+		$sitekey = ifr_settings_get_options( );
+
+		if( $sitekey['e_notification'] ) {
+			$admin_mail = sanitize_option( 'ifr_options', $sitekey['e_notification'] );
+		} else {
+			$admin_mail = sanitize_email( get_option( 'admin_email' ) );
+		}
 	
 		// Prepare e-mail message to notify site admin of new submission
-		$admin_mail = get_option( 'admin_email' );
+		
+		$message = esc_html_e( 'A user submitted a new film review to your Wordpress site database', 'ipanema-film-reviews' ) . '<br /><br />';
+		$message .= esc_html_e( 'Film: ' . $post->post_title,  'ipanema-film-reviews' ) . '<br />';
+		$message .= '<a href="' . add_query_arg( array( 'post_status' => 'draft', 'post_type' => 'film_reviews' ), admin_url( 'edit.php' ) ) . '">' . esc_html_e( 'Moderate new film reviews', 'ipanema-film-reviews' ) . '</a>';
 
-		$message = 'A user submitted a new film review to your Wordpress site database<br /><br />';
-		$message .= 'Film: ' . $post->post_title . '<br />';
-		$message .= '<a href="' . add_query_arg( array( 'post_status' => 'draft', 'post_type' => 'film_reviews' ), admin_url( 'edit.php' ) ) . '">Moderate new film reviews</a>';
-
-		$email_title = htmlspecialchars_decode( get_bloginfo(), ENT_QUOTES ) . ' - New Film Review Added: ' . htmlspecialchars( $post->post_title );
+		$email_title = htmlspecialchars_decode( get_bloginfo(), ENT_QUOTES ) . esc_html_e( ' - New Film Review Added: ',  'ipanema-film-reviews' ) . htmlspecialchars( $post->post_title );
 
 		// Send e-mail
 		wp_mail( $admin_mail, $email_title, $message, $headers );
@@ -1214,4 +1296,5 @@ function ifr_recaptcha_script() {
  * WordPress Plugin Development CookBook (Second edition) - Yannick Lefebvre
  * How to Internationalize Your Plugin (Plugin HandBook)
  * Plugin Readmes (Plugin HandBook)
+ * Securing - Sanitizing / Escaping (Plugin HandBook)
  ****************************************************************************/

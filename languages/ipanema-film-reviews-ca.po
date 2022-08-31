@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-24 16:44+0200\n"
-"PO-Revision-Date: 2022-08-24 16:46+0200\n"
+"POT-Creation-Date: 2022-08-31 11:28+0200\n"
+"PO-Revision-Date: 2022-08-31 11:31+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ca\n"
@@ -12,285 +12,454 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: esc_html__;esc_html_e\n"
+"X-Poedit-KeywordsList: esc_html__;esc_html_e;* Description:\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: ipanema-film-reviews.php:76
+#: includes/admin/ipanema-settings.php:45
+msgid "Ipanema Configuration"
+msgstr "Configuració"
+
+#: includes/admin/ipanema-settings.php:46
+msgid "Ipanema"
+msgstr "Ipanema"
+
+#: includes/admin/ipanema-settings.php:65
+msgid "Ipanema Settings"
+msgstr "Configuració"
+
+#: includes/admin/ipanema-settings.php:69
+msgid "Settings saved successfully"
+msgstr "Configuració guardada correctament"
+
+#: includes/admin/ipanema-settings.php:180
+msgid "Ipanema Film Reviews "
+msgstr "Ressenyes cinematogràfiques "
+
+#: includes/admin/ipanema-settings.php:180
+msgid "is a WordPress plugin for those who love movies and cinema."
+msgstr ""
+"és un complement de WordPress per als amants de les pel·lícules i el cinema."
+
+#: includes/admin/ipanema-settings.php:186
+msgid "Google reCaptcha"
+msgstr "Google Recaptcha"
+
+#: includes/admin/ipanema-settings.php:194
+msgid "Email Notification"
+msgstr "Notificacions"
+
+#: includes/admin/ipanema-settings.php:208
+msgid "Follow the instructions: "
+msgstr "Instruccions: "
+
+#: includes/admin/ipanema-settings.php:210
+msgid "You must integrate Google reCaptcha."
+msgstr "Heu d'integrar Google reCaptcha."
+
+#: includes/admin/ipanema-settings.php:211
+msgid ""
+"reCAPTCHA is a free service that protects your website from spam and abuse."
+msgstr ""
+"reCAPTCHA és un servei gratuït que protegeix el vostre lloc web del correu "
+"brossa i l'abús."
+
+#: includes/admin/ipanema-settings.php:212
+msgid ""
+"reCAPTCHA uses an advanced risk analysis engine and adaptive CAPTCHAs to "
+"keep automated software from engaging in abusive activities on your site. It "
+"does this while letting your valid users pass through with ease."
+msgstr ""
+"reCAPTCHA utilitza un motor d'anàlisi de riscos avançat i CAPTCHA adaptatius "
+"per evitar que el programari automatitzat participi en activitats abusives "
+"al vostre lloc web. Alhora permet que els usuaris \"vàlids\" accedeixin amb "
+"facilitat."
+
+#: includes/admin/ipanema-settings.php:213
+msgid "Read more"
+msgstr "Saber-n'hi més"
+
+#: includes/admin/ipanema-settings.php:214
+msgid "Developer's Guide"
+msgstr "Guia del desenvolupador"
+
+#: includes/admin/ipanema-settings.php:215
+msgid "Change email notification."
+msgstr ""
+"Canvieu el correu electrònic per rebre les notificacions de nova ressenya "
+"per part d'un usuari."
+
+#: includes/admin/ipanema-settings.php:216
+msgid ""
+"When a user submits a new film review you will receive an email "
+"notification. You can set your preferred email to receive these kind of "
+"notifications."
+msgstr ""
+"Quan un usuari envia una nova crítica de pel·lícula, rebreu una notificació "
+"per correu electrònic. Podeu configurar el teu correu electrònic preferit "
+"per a rebre aquest tipus de notificacions."
+
+#: includes/admin/ipanema-settings.php:217
+msgid ""
+"If you don't, you will receive the notification message in the "
+"\"Administration Email Address\"."
+msgstr ""
+"Si no ho feu, rebreu el missatge de notificació a l'adreça de correu "
+"electrònic de l'administració del lloc."
+
+#: includes/admin/ipanema-settings.php:218
+msgid "In your case, the default \"Administration Email Address\" is: "
+msgstr ""
+"En el vostre cas, l'adreça de correu electrònic de l'administració per "
+"defecte és: "
+
+#: includes/admin/ipanema-settings.php:227
+msgid "FAQ:"
+msgstr "FAQ:"
+
+#: includes/admin/ipanema-settings.php:229
+msgid "What happens if you don't set the \"Google reCaptcha\"?"
+msgstr "Què passa si no configureu el \"reCaptcha de Google\"?"
+
+#: includes/admin/ipanema-settings.php:230
+msgid ""
+"If you don't provide the Google reCaptcha value, users won't be allowed to "
+"submit any film review from the \"Add a Film Review\" form."
+msgstr ""
+"Si no proporcioneu el valor reCaptcha de Google, els usuaris no podran "
+"enviar cap ressenya de pel·lícules des del formulari \"Afegeix una ressenya "
+"de pel·lícules\"."
+
+#: includes/admin/ipanema-settings.php:231
+msgid "What happens if you don't set the \"Email Notification\"?"
+msgstr "Què passa si no configureu la \"Notificació per correu electrònic\"?"
+
+#: includes/admin/ipanema-settings.php:232
+msgid ""
+"If you don't provide an email for the plugin's notifications, you will "
+"receive these kind of alerts in your \"Administration Email Address\"."
+msgstr ""
+"Si no proporcioneu un correu electrònic per a rebre notificacions de noves "
+"ressenyes, rebreu aquest tipus d'alertes a la vostra \"Adreça de correu "
+"electrònic de l'administració del lloc web\"."
+
+#: includes/admin/ipanema-settings.php:233
+msgid "In your case, the email is: "
+msgstr "En el vostre cas, el correu electrònic és: "
+
+#: includes/admin/ipanema-settings.php:253
+msgid "Site Key: "
+msgstr "Clau del lloc: "
+
+#: includes/admin/ipanema-settings.php:262
+msgid "Email Notification: "
+msgstr "Correu electrònic: "
+
+#: ipanema-film-reviews.php:85
 msgid "Film Reviews"
 msgstr "Ressenyes cinematogràfiques"
 
-#: ipanema-film-reviews.php:77 ipanema-film-reviews.php:999
+#: ipanema-film-reviews.php:86 ipanema-film-reviews.php:1080
 msgid "Film Review"
 msgstr "Ressenya cinematogràfica"
 
-#: ipanema-film-reviews.php:78
+#: ipanema-film-reviews.php:87
 msgid "Add New"
 msgstr "Afegir Nova Ressenya"
 
-#: ipanema-film-reviews.php:79
+#: ipanema-film-reviews.php:88
 msgid "Add New Film Review"
 msgstr "Afegeix Nova Ressenya"
 
-#: ipanema-film-reviews.php:80
+#: ipanema-film-reviews.php:89
 msgid "Edit"
 msgstr "Edita"
 
-#: ipanema-film-reviews.php:81
+#: ipanema-film-reviews.php:90
 msgid "Edit Film Review"
 msgstr "Edita Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:82
+#: ipanema-film-reviews.php:91
 msgid "New Film Review"
 msgstr "Nova Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:83
+#: ipanema-film-reviews.php:92
 msgid "View"
 msgstr "Visualitza"
 
-#: ipanema-film-reviews.php:84
+#: ipanema-film-reviews.php:93
 msgid "View Film Review"
 msgstr "Visualitza Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:85
+#: ipanema-film-reviews.php:94
 msgid "Search Reviews"
 msgstr "Cerca Ressenyes"
 
-#: ipanema-film-reviews.php:86
+#: ipanema-film-reviews.php:95
 msgid "No Film Reviews found"
 msgstr "No s'han trobat ressenyes cinematogràfiques"
 
-#: ipanema-film-reviews.php:87
+#: ipanema-film-reviews.php:96
 msgid "No Film Reviews found in Trash"
 msgstr "No s'han trobat ressenyes cinematogràfiques a la paperera"
 
-#: ipanema-film-reviews.php:88
+#: ipanema-film-reviews.php:97
 msgid "Parent Film Review"
 msgstr "Ressenya Cinematogràfica Matriu"
 
-#: ipanema-film-reviews.php:107
+#: ipanema-film-reviews.php:116
 msgid "Film Genre"
 msgstr "Gèneres Cinematogràfics"
 
-#: ipanema-film-reviews.php:108
+#: ipanema-film-reviews.php:117
 msgid "Add New Film Genre"
 msgstr "Afegir Nou Gènere Cinematogràfic"
 
-#: ipanema-film-reviews.php:109
+#: ipanema-film-reviews.php:118
 msgid "New Film Genre Name"
 msgstr "Nou Gènere Cinematogràfic"
 
-#: ipanema-film-reviews.php:131
+#: ipanema-film-reviews.php:140
 msgid "Film Review Details"
 msgstr "Detalls Ressenya Cinematogràfica"
 
-#: ipanema-film-reviews.php:137
+#: ipanema-film-reviews.php:146
 msgid "Source"
 msgstr "Font"
 
-#: ipanema-film-reviews.php:143
+#: ipanema-film-reviews.php:152
 msgid "File attachment"
 msgstr "Adjunt"
 
-#: ipanema-film-reviews.php:149
+#: ipanema-film-reviews.php:158
 msgid "Twitter Feed"
 msgstr "Feed de Twitter"
 
-#: ipanema-film-reviews.php:180 ipanema-film-reviews.php:590
-#: ipanema-film-reviews.php:632 ipanema-film-reviews.php:983
+#: ipanema-film-reviews.php:189 ipanema-film-reviews.php:596
+#: ipanema-film-reviews.php:638 ipanema-film-reviews.php:1064
 msgid "Film Director"
 msgstr "Director"
 
-#: ipanema-film-reviews.php:184 ipanema-film-reviews.php:633
+#: ipanema-film-reviews.php:193 ipanema-film-reviews.php:639
+#: ipanema-film-reviews.php:798
 msgid "Supporting actors"
 msgstr "Actors de repartiment"
 
-#: ipanema-film-reviews.php:188
+#: ipanema-film-reviews.php:197
 msgid "Film length"
-msgstr "Durada de la Pel·lícula"
+msgstr "Durada de la pel·lícula"
 
-#: ipanema-film-reviews.php:192 ipanema-film-reviews.php:635
+#: ipanema-film-reviews.php:201 ipanema-film-reviews.php:641
+#: ipanema-film-reviews.php:814
 msgid "Release date"
 msgstr "Data d'estrena"
 
-#: ipanema-film-reviews.php:196 ipanema-film-reviews.php:636
-#: ipanema-film-reviews.php:791 ipanema-film-reviews.php:1003
+#: ipanema-film-reviews.php:205 ipanema-film-reviews.php:642
+#: ipanema-film-reviews.php:821 ipanema-film-reviews.php:1084
 msgid "Rating"
 msgstr "Qualificació"
 
-#: ipanema-film-reviews.php:201 ipanema-film-reviews.php:670
-#: ipanema-film-reviews.php:797
+#: ipanema-film-reviews.php:210 ipanema-film-reviews.php:676
+#: ipanema-film-reviews.php:827 ipanema-film-reviews.php:1090
 msgid " stars"
 msgstr " estrelles"
 
-#: ipanema-film-reviews.php:250 ipanema-film-reviews.php:1035
+#: ipanema-film-reviews.php:259 ipanema-film-reviews.php:1118
 msgid "Source Name"
 msgstr "Font"
 
-#: ipanema-film-reviews.php:256 ipanema-film-reviews.php:1039
+#: ipanema-film-reviews.php:265 ipanema-film-reviews.php:1122
 msgid "Source Address"
 msgstr "Adreça"
 
-#: ipanema-film-reviews.php:286
+#: ipanema-film-reviews.php:295
 msgid "PDF Attachment"
 msgstr "PDF Adjunt"
 
-#: ipanema-film-reviews.php:294
+#: ipanema-film-reviews.php:303
 msgid "No Attachment Present"
 msgstr "No hi ha cap fitxer adjunt"
 
-#: ipanema-film-reviews.php:297
+#: ipanema-film-reviews.php:306
 msgid "Download Attachment"
 msgstr "Descarregar fitxer adjunt"
 
-#: ipanema-film-reviews.php:304
+#: ipanema-film-reviews.php:313
 msgid "Upload File"
 msgstr "Adjunt"
 
-#: ipanema-film-reviews.php:308
+#: ipanema-film-reviews.php:317
 msgid "Delete File"
 msgstr "Suprimeix fitxer"
 
-#: ipanema-film-reviews.php:309
+#: ipanema-film-reviews.php:318
 msgid "Delete Attachment"
 msgstr "Suprimeix l'adjunt"
 
-#: ipanema-film-reviews.php:335
+#: ipanema-film-reviews.php:344
 msgid "Only files of PDF type are allowed."
 msgstr "Només es permeten arxius tipus PDF."
 
-#: ipanema-film-reviews.php:346
+#: ipanema-film-reviews.php:355
 msgid "There was an error uploading your file. The error is: "
 msgstr "Hi ha hagut un error pujant el fitxer. L'error és: "
 
-#: ipanema-film-reviews.php:370
+#: ipanema-film-reviews.php:379
 msgid "Username"
 msgstr "Usuari"
 
-#: ipanema-film-reviews.php:435
+#: ipanema-film-reviews.php:444
 msgid "Film director: "
 msgstr "Director: "
 
-#: ipanema-film-reviews.php:442
+#: ipanema-film-reviews.php:451
 msgid "Supporting actors: "
 msgstr "Actors de repartiment: "
 
-#: ipanema-film-reviews.php:449
-msgid "Film length: "
-msgstr "Durada de la Pel·lícula: "
-
 #: ipanema-film-reviews.php:458
+msgid "Film length: "
+msgstr "Durada de la pel·lícula: "
+
+#: ipanema-film-reviews.php:467
 msgid "Release date: "
 msgstr "Data d'estrena: "
 
-#: ipanema-film-reviews.php:465
+#: ipanema-film-reviews.php:474
 msgid "Rating: "
 msgstr "Qualificació: "
 
-#: ipanema-film-reviews.php:488
+#: ipanema-film-reviews.php:497
 msgid "Source: "
 msgstr "Font: "
 
-#: ipanema-film-reviews.php:501
+#: ipanema-film-reviews.php:510
 msgid "Download additional information"
 msgstr "Descarregar informació adicional"
 
-#: ipanema-film-reviews.php:520
+#: ipanema-film-reviews.php:526
 msgid "Check out this interesting article entitled"
 msgstr "Consulta aquest interessant article titulat"
 
-#: ipanema-film-reviews.php:522
+#: ipanema-film-reviews.php:528
 msgid "Hi!%0A%0AI thought you would enjoy this article entitled"
 msgstr "Hola!%0A%0AHe pensat que t'agradaria aquest article titulat"
 
-#: ipanema-film-reviews.php:524
+#: ipanema-film-reviews.php:530
 msgid "Enjoy"
 msgstr "Disfruta'l"
 
-#: ipanema-film-reviews.php:531
+#: ipanema-film-reviews.php:537
 msgid "Email link to this article"
 msgstr "Enllaç"
 
-#: ipanema-film-reviews.php:589 ipanema-film-reviews.php:979
+#: ipanema-film-reviews.php:595 ipanema-film-reviews.php:1060
 msgid "Film Title"
 msgstr "Títol de la pel·lícula"
 
-#: ipanema-film-reviews.php:607
+#: ipanema-film-reviews.php:613
 msgid " Older reviews"
 msgstr " Ressenyes anteriors"
 
-#: ipanema-film-reviews.php:610
+#: ipanema-film-reviews.php:616
 msgid "Newer reviews "
 msgstr "Últimes Ressenyes "
 
-#: ipanema-film-reviews.php:634 ipanema-film-reviews.php:991
+#: ipanema-film-reviews.php:640 ipanema-film-reviews.php:806
+#: ipanema-film-reviews.php:1072
 msgid "Film Length"
-msgstr "Durada de la Pel·lícula"
+msgstr "Durada"
 
-#: ipanema-film-reviews.php:637 ipanema-film-reviews.php:804
-#: ipanema-film-reviews.php:1015
+#: ipanema-film-reviews.php:643 ipanema-film-reviews.php:1096
 msgid "Genre"
 msgstr "Gènere"
 
-#: ipanema-film-reviews.php:678
+#: ipanema-film-reviews.php:667
+msgid "'"
+msgstr "'"
+
+#: ipanema-film-reviews.php:684
 msgid "None Assigned"
 msgstr "Cap Assignada"
 
-#: ipanema-film-reviews.php:741
+#: ipanema-film-reviews.php:747
 msgid "Show All Genre"
 msgstr "Mostra Tots Els Gèneres"
 
-#: ipanema-film-reviews.php:784
+#: ipanema-film-reviews.php:790
 msgid "Film director"
 msgstr "Director"
 
-#: ipanema-film-reviews.php:901
+#: ipanema-film-reviews.php:954
 msgid "Edit this item inline"
 msgstr "Edita aquest article en línia"
 
-#: ipanema-film-reviews.php:906
+#: ipanema-film-reviews.php:959
 msgid "Quick&nbsp;Edit"
 msgstr "Edició ràpida"
 
-#: ipanema-film-reviews.php:958
+#: ipanema-film-reviews.php:1027
 msgid ""
-"<p>You need to be a site member to be able to submit film reviews. Sign up "
-"to gain access!</p>"
+"You need to be a site member to be able to submit film reviews. Sign up to "
+"gain access!"
 msgstr ""
-"<p>Heu de ser membre del lloc per poder enviar ressenyes de pel·lícules. "
-"Registra't per accedir!</p>"
+"Heu de ser membre del lloc per poder enviar ressenyes de pel·lícules. "
+"Registra't per accedir!"
 
-#: ipanema-film-reviews.php:962
+#: ipanema-film-reviews.php:1038
+msgid "reCaptcha Site key is missing. It must be set to submit a film review."
+msgstr ""
+"reCaptcha no està definit. S'ha de configurar prèviament per a poder enviar "
+"una crítica cinematogràfica."
+
+#: ipanema-film-reviews.php:1042
 msgid "Add a Film Review"
 msgstr "Afegeix Nova Ressenya"
 
-#: ipanema-film-reviews.php:970
-msgid "Thank for your submission!"
-msgstr "Moltes gràcies!"
+#: ipanema-film-reviews.php:1051
+msgid "Thank you for your submission!"
+msgstr "Moltes gràcies per la teva ressenya!"
 
-#: ipanema-film-reviews.php:987
+#: ipanema-film-reviews.php:1068
 msgid "Supporting Actors"
 msgstr "Actors de repartiment"
 
-#: ipanema-film-reviews.php:995
+#: ipanema-film-reviews.php:1076
 msgid "Release Date"
 msgstr "Data d'estrena"
 
-#: ipanema-film-reviews.php:1043
+#: ipanema-film-reviews.php:1126
 msgid "Thumbnail "
 msgstr "Imatge "
 
-#: ipanema-film-reviews.php:1047
+#: ipanema-film-reviews.php:1130
 msgid "Twitter account"
 msgstr "Compte de Twitter"
 
-#: ipanema-film-reviews.php:1122
+#: ipanema-film-reviews.php:1205
 msgid "Only \"jpg\" files type are allowed."
 msgstr "Només es permeten fitxers de tipus \"jpg\"."
 
-#: ipanema-film-reviews.php:1165
+#: ipanema-film-reviews.php:1249
 msgid "Some fields were left empty. Please go back and complete the form."
 msgstr ""
 "Alguns camps estan buits. Si us plau, torneu enrere i ompliu el formulari."
+
+#: ipanema-film-reviews.php:1274
+msgid "A user submitted a new film review to your Wordpress site database"
+msgstr ""
+"Un usuari ha enviat una nova ressenya de pel·lícules a la vostra base de "
+"dades del lloc de Wordpress"
+
+#: ipanema-film-reviews.php:1275
+msgid "Film: "
+msgstr "Durada de la pel·lícula: "
+
+#: ipanema-film-reviews.php:1276
+msgid "Moderate new film reviews"
+msgstr "Acceptar nova ressenya cinematogràfica"
+
+#: ipanema-film-reviews.php:1278
+msgid " - New Film Review Added: "
+msgstr " - S'ha afegit un nova ressenya cinematogràfica: "
 
 #~ msgid "Email article link"
 #~ msgstr "Enllaç "
