@@ -155,7 +155,6 @@ function ifr_settings_options_process() {
 
 	// Redirect the page to the configuration form that was
 	// processed
-
 	wp_redirect( add_query_arg( array( 'page' => 'ifr-settings', 'message' => '1' ), admin_url( 'options-general.php' ) ) );
 	exit;
 }
