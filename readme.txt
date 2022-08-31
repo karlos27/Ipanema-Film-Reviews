@@ -29,9 +29,15 @@ This plugin lets you add a film review system to your WordPress site. Using cust
 = 1.0 = 
 * First version of the plugin. 
  
-== Frequently Asked Questions == 
- 
-There are currently no FAQs at this time. 
+== Frequently Asked Questions ==
+
+= What happens if you don't set the "Google reCaptcha"? =
+
+If you don't provide the Google reCaptcha value, users won't be allowed to submit any film review from the "Add a Film Review" form.
+
+= What happens if you don't set the "Email Notification"? =
+
+If you don't provide an email for the plugin's notifications, you will receive these kind of alerts in your "Administration Email Address".
  
 == Screenshots == 
  
